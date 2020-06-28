@@ -1,6 +1,10 @@
-package com.dr.drillinstructor
+package com.dr.drillinstructor.util
 
-class TrainingStateProviderImpl : TrainingStateProvider {
+import com.dr.drillinstructor.util.TrainingState
+import com.dr.drillinstructor.util.TrainingStateProvider
+
+class TrainingStateProviderImpl :
+    TrainingStateProvider {
     var traininState: TrainingState = TrainingState.IDLE
 
     override fun getTrainingState(): TrainingState {

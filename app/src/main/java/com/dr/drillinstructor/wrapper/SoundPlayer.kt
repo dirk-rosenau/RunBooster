@@ -1,4 +1,4 @@
-package com.dr.drillinstructor
+package com.dr.drillinstructor.wrapper
 
 import android.content.res.AssetManager
 import android.media.MediaPlayer
@@ -7,6 +7,7 @@ class SoundPlayer(val assets: AssetManager, val mediaPlayer: MediaPlayer) {
 
     fun playSound(filename: String) {
         try {
+            mediaPlayer.reset()
             val descriptor = assets.openFd(filename)
             mediaPlayer.setDataSource(
                 descriptor.fileDescriptor,

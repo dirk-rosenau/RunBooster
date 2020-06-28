@@ -1,4 +1,4 @@
-package com.dr.drillinstructor
+package com.dr.drillinstructor.util
 
 enum class TrainingState {
     LIGHT,
