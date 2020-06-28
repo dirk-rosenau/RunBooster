@@ -1,11 +1,9 @@
 package com.dr.drillinstructor
 
-import android.content.Context
 import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.support.wearable.activity.WearableActivity
-import android.widget.Toast
+import com.dr.drillinstructor.wrapper.AlarmHelper
+import com.dr.drillinstructor.wrapper.VibrationHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
@@ -14,11 +12,12 @@ class MainActivity : WearableActivity() {
 
     private val soundPlayer: SoundPlayer by inject()
     private val alarmHelper: AlarmHelper by inject()
+    private val vibrationHelper: VibrationHelper by inject()
+    private val trainingStateProvider: TrainingStateProvider by inject()
 
-    private var playState = false;
+    private var playButtonState = false;
     private val SPRINT_TIME = 30 * 1000 // secounds
     private val PAUSE_TIME = 4 * 60 * 1000// minutes
-    private var runState = RunState.IDLE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,38 +40,31 @@ class MainActivity : WearableActivity() {
     // 7. outstanding spielen
     // zurück zu 3
     private fun togglePlay() {
-        playState = !playState
-        if (!playState) {
+        playButtonState = !playButtonState
+        if (!playButtonState) {
             handleStopPressed()
         } else {
             handlePlayPressed()
         }
-        vibrate()
+        vibrationHelper.vibrate()
     }
 
     private fun handlePlayPressed() {
         play_button.setImageResource(R.drawable.ic_stop)
-        soundPlayer.playSound("gogogo.mp3")
-        alarmHelper.setAlam(5 * 1000)
-        Toast.makeText(this, "Started", Toast.LENGTH_LONG).show()
+
+        // TODO auslagern in extra manager klasse oder alarm helper umfunktionieren
+        trainingStateProvider.setTrainingState(TrainingState.LIGHT)
+        alarmHelper.setAlarm(5 * 1000)
     }
 
     private fun handleStopPressed() {
         play_button.setImageResource(R.drawable.ic_play_arrow)
-        soundPlayer.playSound("outstanding.mp3")
+        // play sound giving up / outstanding
+        // soundPlayer.playSound("outstanding.mp3")
+        alarmHelper.cancelAlarm()
     }
 
     private fun startJoggingMode() {
-        runState = RunState.JOGGING
-        // play start sound
-
-    }
-
-    private fun vibrate() {
-        val vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
-        val vibrator =
-            getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-
-        vibrator.vibrate(vibrationEffect)
+        trainingStateProvider.setTrainingState(TrainingState.LIGHT)
     }
 }
