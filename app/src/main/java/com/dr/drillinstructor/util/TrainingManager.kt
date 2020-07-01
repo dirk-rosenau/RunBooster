@@ -9,7 +9,8 @@ class TrainingManager(
     private val alarmHelper: AlarmHelper,
     private val trainingStateProvider: TrainingStateProvider,
     private val soundPlayer: SoundPlayer,
-    private val vibrationHelper: VibrationHelper
+    private val vibrationHelper: VibrationHelper,
+    private val preferenceRepository: PreferenceRepository
 ) {
 
     private val hardModeDuration: Long = 3 * 1000
@@ -37,7 +38,6 @@ class TrainingManager(
             vibrationHelper.vibrateShort()
         }
         trainingStateProvider.setTrainingState(TrainingState.LIGHT)
-
         alarmHelper.setAlarm(lightModeDuration)
     }
 

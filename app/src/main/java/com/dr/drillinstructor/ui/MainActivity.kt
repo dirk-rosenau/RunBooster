@@ -28,14 +28,6 @@ class MainActivity : WearableActivity() {
         }
     }
 
-    // 1. runstate von idle zu run
-    // 2. start sound spielen
-    // 3. alarm stellen für jogg time
-    // 4. state zu sprint
-    // 5. gogogo spielenn
-    // 6. alarm stellen für sprint zeit
-    // 7. outstanding spielen
-    // zurück zu 3
     private fun togglePlay() {
         playButtonState = !playButtonState
         if (!playButtonState) {

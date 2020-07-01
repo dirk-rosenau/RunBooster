@@ -1,17 +1,13 @@
 package com.dr.drillinstructor.util
 
-import com.dr.drillinstructor.util.TrainingState
-import com.dr.drillinstructor.util.TrainingStateProvider
-
-class TrainingStateProviderImpl :
+class TrainingStateProviderImpl(private val preferenceRepository: PreferenceRepository) :
     TrainingStateProvider {
-    var traininState: TrainingState = TrainingState.IDLE
 
     override fun getTrainingState(): TrainingState {
-        return traininState
+        return preferenceRepository.getTrainingState()
     }
 
     override fun setTrainingState(trainingState: TrainingState) {
-        this.traininState = trainingState
+        this.preferenceRepository.setTrainingState((trainingState))
     }
 }
