@@ -15,11 +15,11 @@ val mainModule = module {
     single {
         SoundPlayer(
             androidContext().assets,
-            get()
+            get(), androidContext()
         )
     }
     single { AlarmHelper(androidContext()) }
     single { VibrationHelper(androidContext()) }
     single { TrainingStateProviderImpl() as TrainingStateProvider } // do not delete cast
-    single { TrainingManager(get(), get(), get()) }
+    single { TrainingManager(get(), get(), get(), get()) }
 }

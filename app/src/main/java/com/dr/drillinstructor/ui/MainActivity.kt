@@ -43,7 +43,7 @@ class MainActivity : WearableActivity() {
         } else {
             handlePlayPressed()
         }
-        vibrationHelper.vibrate()
+        vibrationHelper.vibrateShort()
     }
 
     private fun handlePlayPressed() {
