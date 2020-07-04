@@ -45,7 +45,7 @@ class PreferenceRepositoryImpl(private val prefs: SharedPreferences) : Preferenc
         prefs.edit().putLong(KEY_START_DELAY, duration).apply()
     }
 
-    override fun getStartDeleay(): Long = prefs.getLong(KEY_START_DELAY, DEFAULT_START_DELAY)
+    override fun getStartDelay(): Long = prefs.getLong(KEY_START_DELAY, DEFAULT_START_DELAY)
 
 
     override fun setRandomizeTimes(randomize: Boolean) {

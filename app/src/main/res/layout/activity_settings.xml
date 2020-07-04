@@ -17,22 +17,24 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_settings_layout">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings"
+                android:textSize="@dimen/font_size_headline2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
             <ImageView
                 android:id="@+id/image_light_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/number_picker_margin"
                 android:src="@drawable/ic_directions_run"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/headline" />
@@ -48,6 +50,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/headline"
                 app:layout_constraintTop_toTopOf="@id/image_light_duration" />
 
+            <View
+                android:id="@+id/clickBoxLightDuration"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/image_light_duration"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_light_duration" />
+
+
             <ImageView
                 android:id="@+id/image_hard_duration"
                 android:layout_width="wrap_content"
@@ -57,6 +69,15 @@
 
                 app:layout_constraintStart_toStartOf="@id/image_light_duration"
                 app:layout_constraintTop_toBottomOf="@+id/image_light_duration" />
+
+            <View
+                android:id="@+id/clickBoxHardDuration"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/image_hard_duration"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_hard_duration" />
 
             <TextView
                 android:id="@+id/text_hard_duration"

@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import com.dr.drillinstructor.receiver.DrillCallBroadcastReceiver
 
 class AlarmHelper(private val context: Context) {
@@ -30,7 +29,6 @@ class AlarmHelper(private val context: Context) {
         val pendingIntent = getPendingIntent(PendingIntent.FLAG_NO_CREATE)
         if (pendingIntent != null && alarmManager != null) {
             alarmManager.cancel(pendingIntent)
-            Toast.makeText(context, "Cancelled", Toast.LENGTH_LONG).show()
         }
     }
 

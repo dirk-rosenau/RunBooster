@@ -11,4 +11,5 @@
     <string name="settings">Einstellungen</string>
     <string name="duration_normal">Dauer Jogging</string>
     <string name="duration_hard">Dauer Sprint</string>
+    <string name="title_activity_number_picker">NumberPickerActivity</string>
 </resources>

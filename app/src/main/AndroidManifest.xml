@@ -28,6 +28,15 @@
             android:value="true" />
 
         <activity
+            android:name=".ui.NumberPickerActivity"
+            android:label="@string/title_activity_number_picker">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings">
             <intent-filter>
