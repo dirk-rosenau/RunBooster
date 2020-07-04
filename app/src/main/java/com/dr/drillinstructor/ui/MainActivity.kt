@@ -14,8 +14,6 @@ class MainActivity : WearableActivity() {
     private val vibrationHelper: VibrationHelper by inject()
     private val trainingManager: TrainingManager by inject()
 
-    private var playButtonState = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,14 +21,24 @@ class MainActivity : WearableActivity() {
         // Enables Always-on
         setAmbientEnabled()
 
+        initPlayButton()
+        initButtonClickListener()
+    }
+
+    private fun initButtonClickListener() {
         play_button.setOnClickListener {
             togglePlay()
         }
     }
 
+    private fun initPlayButton() {
+        if (trainingManager.isTrainingStarted()) {
+            play_button.setImageResource(R.drawable.ic_stop)
+        }
+    }
+
     private fun togglePlay() {
-        playButtonState = !playButtonState
-        if (!playButtonState) {
+        if (trainingManager.isTrainingStarted()) {
             handleStopPressed()
         } else {
             handlePlayPressed()
@@ -45,8 +53,6 @@ class MainActivity : WearableActivity() {
 
     private fun handleStopPressed() {
         play_button.setImageResource(R.drawable.ic_play_arrow)
-        // play sound giving up / outstanding je nachdem
-        // soundPlayer.playSound("outstanding.mp3")
         trainingManager.stopTrainng()
     }
 }

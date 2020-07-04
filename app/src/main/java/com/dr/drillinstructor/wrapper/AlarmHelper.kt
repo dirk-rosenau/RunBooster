@@ -34,6 +34,8 @@ class AlarmHelper(private val context: Context) {
         }
     }
 
+    fun isAlarmSet() = getPendingIntent(PendingIntent.FLAG_NO_CREATE) != null
+
     private fun getPendingIntent(flags: Int): PendingIntent? {
         val intent = Intent(context, DrillCallBroadcastReceiver::class.java)
         return PendingIntent.getBroadcast(

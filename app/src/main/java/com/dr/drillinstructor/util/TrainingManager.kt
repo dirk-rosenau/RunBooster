@@ -12,10 +12,6 @@ class TrainingManager(
     private val vibrationHelper: VibrationHelper,
     private val preferenceRepository: PreferenceRepository
 ) {
-
-    private val hardModeDuration: Long = 3 * 1000
-    private val lightModeDuration: Long = 10 * 1000
-
     fun evaluateTrainingState() {
         when (trainingStateProvider.getTrainingState()) {
             TrainingState.LIGHT -> setHardMode()
@@ -26,8 +22,11 @@ class TrainingManager(
 
     fun stopTrainng() {
         alarmHelper.cancelAlarm()
-        trainingStateProvider.setTrainingState(TrainingState.LIGHT)
+        trainingStateProvider.setTrainingState(TrainingState.IDLE)
     }
+
+    fun isTrainingStarted(): Boolean =
+        preferenceRepository.getTrainingState() != TrainingState.IDLE || alarmHelper.isAlarmSet()
 
     fun setLightMode() {
         Log.d("BroadcastReceiver", "enter LightMode")
@@ -38,13 +37,13 @@ class TrainingManager(
             vibrationHelper.vibrateShort()
         }
         trainingStateProvider.setTrainingState(TrainingState.LIGHT)
-        alarmHelper.setAlarm(lightModeDuration)
+        alarmHelper.setAlarm(preferenceRepository.getLightModeDuration())
     }
 
     fun setHardMode() {
         Log.d("BroadcastReceiver", "enter hardMode")
         trainingStateProvider.setTrainingState(TrainingState.HARD)
-        alarmHelper.setAlarm(hardModeDuration)
+        alarmHelper.setAlarm(preferenceRepository.getHardModeDuration())
         vibrationHelper.vibrateHardMode()
         soundPlayer.playSound("gogogo.mp3")
     }
