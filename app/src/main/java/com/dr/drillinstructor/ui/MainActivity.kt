@@ -45,6 +45,7 @@ class MainActivity : WearableActivity() {
     private fun initPlayButton() {
         if (trainingManager.isTrainingStarted()) {
             play_button.setImageResource(R.drawable.ic_stop)
+            settings_button.visibility = View.INVISIBLE
         }
     }
 
