@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Drill Instructor</string>
+
+    <string name="start_training">Training beginnen</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+
+    <string name="settings">Einstellungen</string>
+    <string name="duration_normal">Dauer Jogging</string>
+    <string name="duration_hard">Dauer Sprint</string>
+    <string name="title_activity_number_picker">NumberPickerActivity</string>
+    <string name="channel_name">Beim Training</string>
+    <string name="channel_description">Während des Training Modus anzeigen</string>
+    <string name="notification_run_mode_active">Trainingmodus aktiv</string>
+</resources>

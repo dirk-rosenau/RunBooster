@@ -29,24 +29,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <ImageView
                 android:id="@+id/image_light_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/number_picker_margin"
+                android:layout_marginTop="@dimen/spacer_settings_top"
                 android:src="@drawable/ic_directions_run"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/headline" />
 
             <TextView
                 android:id="@+id/text_light_duration"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacer_settings_image_text"
                 android:text="@string/duration_normal"
                 app:layout_constraintBottom_toBottomOf="@id/image_light_duration"
                 app:layout_constraintLeft_toRightOf="@id/image_light_duration"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/headline"
                 app:layout_constraintTop_toTopOf="@id/image_light_duration" />
 
@@ -64,11 +64,22 @@
                 android:id="@+id/image_hard_duration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacer_settings_top"
+                android:layout_marginTop="@dimen/number_picker_margin"
                 android:src="@drawable/ic_directions_run"
 
                 app:layout_constraintStart_toStartOf="@id/image_light_duration"
                 app:layout_constraintTop_toBottomOf="@+id/image_light_duration" />
+
+            <TextView
+                android:id="@+id/text_hard_duration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacer_settings_image_text"
+                android:text="@string/duration_hard"
+                app:layout_constraintBottom_toBottomOf="@+id/image_hard_duration"
+                app:layout_constraintLeft_toRightOf="@id/image_light_duration"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/image_hard_duration" />
 
             <View
                 android:id="@+id/clickBoxHardDuration"
@@ -77,16 +88,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/image_hard_duration"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/image_hard_duration" />
-
-            <TextView
-                android:id="@+id/text_hard_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacer_settings_image_text"
-                android:text="@string/duration_hard"
-                app:layout_constraintBottom_toBottomOf="@+id/image_hard_duration"
-                app:layout_constraintLeft_toRightOf="@id/image_light_duration"
                 app:layout_constraintTop_toTopOf="@+id/image_hard_duration" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

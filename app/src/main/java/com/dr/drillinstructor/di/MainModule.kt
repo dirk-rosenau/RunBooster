@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import android.preference.PreferenceManager
 import com.dr.drillinstructor.util.*
 import com.dr.drillinstructor.wrapper.AlarmHelper
+import com.dr.drillinstructor.wrapper.NotificationHelper
 import com.dr.drillinstructor.wrapper.SoundPlayer
 import com.dr.drillinstructor.wrapper.VibrationHelper
 import org.koin.android.ext.koin.androidContext
@@ -18,8 +19,9 @@ val mainModule = module {
         )
     }
     single { AlarmHelper(androidContext()) }
+    single { NotificationHelper(androidContext()) }
     single { VibrationHelper(androidContext()) }
     single { TrainingStateProviderImpl(get()) as TrainingStateProvider } // do not delete cast
     single { PreferenceRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(androidContext())) as PreferenceRepository }
-    single { TrainingManager(get(), get(), get(), get(), get()) }
+    single { TrainingManager(get(), get(), get(), get(), get(), get()) }
 }

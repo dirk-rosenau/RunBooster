@@ -2,6 +2,7 @@ package com.dr.drillinstructor.util
 
 import android.util.Log
 import com.dr.drillinstructor.wrapper.AlarmHelper
+import com.dr.drillinstructor.wrapper.NotificationHelper
 import com.dr.drillinstructor.wrapper.SoundPlayer
 import com.dr.drillinstructor.wrapper.VibrationHelper
 
@@ -10,7 +11,8 @@ class TrainingManager(
     private val trainingStateProvider: TrainingStateProvider,
     private val soundPlayer: SoundPlayer,
     private val vibrationHelper: VibrationHelper,
-    private val preferenceRepository: PreferenceRepository
+    private val preferenceRepository: PreferenceRepository,
+    private val notificationHelper: NotificationHelper
 ) {
     fun evaluateTrainingState() {
         when (trainingStateProvider.getTrainingState()) {
@@ -23,6 +25,7 @@ class TrainingManager(
     fun stopTrainng() {
         alarmHelper.cancelAlarm()
         trainingStateProvider.setTrainingState(TrainingState.IDLE)
+        notificationHelper.dismissNotification()
     }
 
     fun isTrainingStarted(): Boolean =
@@ -38,6 +41,8 @@ class TrainingManager(
         }
         trainingStateProvider.setTrainingState(TrainingState.LIGHT)
         alarmHelper.setAlarm(preferenceRepository.getLightModeDuration())
+
+        notificationHelper.showNotification()
     }
 
     fun setHardMode() {
