@@ -26,7 +26,7 @@ class TrainingManager(
     }
 
     fun isTrainingStarted(): Boolean =
-        preferenceRepository.getTrainingState() != TrainingState.IDLE || alarmHelper.isAlarmSet()
+        preferenceRepository.getTrainingState() != TrainingState.IDLE
 
     fun setLightMode() {
         Log.d("BroadcastReceiver", "enter LightMode")
