@@ -23,8 +23,11 @@ class MainActivity : WearableActivity() {
         // Enables Always-on
         setAmbientEnabled()
 
-        initPlayButton()
-        initButtonClickListeners()
+        val newFragment: Fragment = DebugExampleTwoFragment()
+        val ft: FragmentTransaction = fragmentManager.beginTransaction()
+        ft.add(CONTENT_VIEW_ID, newFragment).commit()
+//        initPlayButton()
+  //      initButtonClickListeners()
     }
 
     private fun initButtonClickListeners() {
