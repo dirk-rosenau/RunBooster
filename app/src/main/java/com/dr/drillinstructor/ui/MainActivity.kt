@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.wearable.activity.WearableActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
+import androidx.wear.ambient.AmbientModeSupport
 import com.dr.drillinstructor.R
 import com.dr.drillinstructor.util.TrainingManager
 import com.dr.drillinstructor.wrapper.VibrationHelper
@@ -11,21 +14,26 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 
-class MainActivity : WearableActivity() {
+class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider {
 
     private val vibrationHelper: VibrationHelper by inject()
     private val trainingManager: TrainingManager by inject()
+
+    private lateinit var ambientController: AmbientModeSupport.AmbientController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Enables Always-on
-        setAmbientEnabled()
+        ambientController = AmbientModeSupport.attach(this)
+
 
         initPlayButton()
         initButtonClickListeners()
     }
+
+    override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback = MyAmbientCallback()
+
 
     private fun initButtonClickListeners() {
         play_button.setOnClickListener {
@@ -70,4 +78,20 @@ class MainActivity : WearableActivity() {
 
         trainingManager.stopTrainng()
     }
+
+    private class MyAmbientCallback : AmbientModeSupport.AmbientCallback() {
+
+        override fun onEnterAmbient(ambientDetails: Bundle?) {
+            // Handle entering ambient mode
+        }
+
+        override fun onExitAmbient() {
+            // Handle exiting ambient mode
+        }
+
+        override fun onUpdateAmbient() {
+            // Update the content
+        }
+    }
+
 }
