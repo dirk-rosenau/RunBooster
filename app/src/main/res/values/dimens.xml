@@ -14,6 +14,7 @@
     <dimen name="inner_frame_layout_padding">5dp</dimen>
 
     <dimen name="play_button_margin">5dp</dimen>
+    <dimen name="settings_button_bottom_margin">20dp</dimen>
     <dimen name="number_picker_margin">5dp</dimen>
     <dimen name="spacer_settings_top">25dp</dimen>
     <dimen name="spacer_settings_image_text">10dp</dimen>

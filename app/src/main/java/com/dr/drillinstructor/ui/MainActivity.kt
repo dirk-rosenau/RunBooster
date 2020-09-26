@@ -27,15 +27,18 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
         ambientController = AmbientModeSupport.attach(this)
 
+        // decide correct mode
+        val mainFragment = MainFragment.newInstance()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, mainFragment).commit()
 
-        initPlayButton()
-        initButtonClickListeners()
+      /*  initPlayButton()
+        initButtonClickListeners()*/
     }
 
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback = MyAmbientCallback()
 
 
-    private fun initButtonClickListeners() {
+  /*  private fun initButtonClickListeners() {
         play_button.setOnClickListener {
             togglePlay()
         }
@@ -77,7 +80,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         settings_button.visibility = View.VISIBLE
 
         trainingManager.stopTrainng()
-    }
+    }*/
 
     private class MyAmbientCallback : AmbientModeSupport.AmbientCallback() {
 
