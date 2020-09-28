@@ -1,7 +1,7 @@
 package com.dr.drillinstructor.di
 
 import android.media.MediaPlayer
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import com.dr.drillinstructor.ui.vm.InTrainingFragmentViewModel
 import com.dr.drillinstructor.ui.vm.MainFragmentViewModel
 import com.dr.drillinstructor.util.*
