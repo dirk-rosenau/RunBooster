@@ -1,16 +1,11 @@
 package com.dr.drillinstructor.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.support.wearable.activity.WearableActivity
-import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.wear.ambient.AmbientModeSupport
 import com.dr.drillinstructor.R
 import com.dr.drillinstructor.util.TrainingManager
 import com.dr.drillinstructor.wrapper.VibrationHelper
-import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.ext.android.inject
 
 
@@ -28,59 +23,60 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         ambientController = AmbientModeSupport.attach(this)
 
         // decide correct mode
-        val mainFragment = MainFragment.newInstance()
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, mainFragment).commit()
+        val mainFragment = InTrainingFragment.newInstance()
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, mainFragment)
+            .commit()
 
-      /*  initPlayButton()
-        initButtonClickListeners()*/
+        /*  initPlayButton()
+          initButtonClickListeners()*/
     }
 
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback = MyAmbientCallback()
 
 
-  /*  private fun initButtonClickListeners() {
-        play_button.setOnClickListener {
-            togglePlay()
-        }
+    /*  private fun initButtonClickListeners() {
+          play_button.setOnClickListener {
+              togglePlay()
+          }
 
-        settings_button.setOnClickListener {
-            openSettings()
-        }
-    }
+          settings_button.setOnClickListener {
+              openSettings()
+          }
+      }
 
-    private fun openSettings() {
-        val intent = Intent(this, SettingsActivity::class.java)
-        startActivity(intent)
-    }
+      private fun openSettings() {
+          val intent = Intent(this, SettingsActivity::class.java)
+          startActivity(intent)
+      }
 
-    private fun initPlayButton() {
-        if (trainingManager.isTrainingStarted()) {
-            play_button.setImageResource(R.drawable.ic_stop)
-            settings_button.visibility = View.INVISIBLE
-        }
-    }
+      private fun initPlayButton() {
+          if (trainingManager.isTrainingStarted()) {
+              play_button.setImageResource(R.drawable.ic_stop)
+              settings_button.visibility = View.INVISIBLE
+          }
+      }
 
-    private fun togglePlay() {
-        if (trainingManager.isTrainingStarted()) {
-            handleStopPressed()
-        } else {
-            handlePlayPressed()
-        }
-        vibrationHelper.vibrateShort()
-    }
+      private fun togglePlay() {
+          if (trainingManager.isTrainingStarted()) {
+              handleStopPressed()
+          } else {
+              handlePlayPressed()
+          }
+          vibrationHelper.vibrateShort()
+      }
 
-    private fun handlePlayPressed() {
-        play_button.setImageResource(R.drawable.ic_stop)
-        settings_button.visibility = View.INVISIBLE
-        trainingManager.setLightMode()
-    }
+      private fun handlePlayPressed() {
+          play_button.setImageResource(R.drawable.ic_stop)
+          settings_button.visibility = View.INVISIBLE
+          trainingManager.setLightMode()
+      }
 
-    private fun handleStopPressed() {
-        play_button.setImageResource(R.drawable.ic_play_arrow)
-        settings_button.visibility = View.VISIBLE
+      private fun handleStopPressed() {
+          play_button.setImageResource(R.drawable.ic_play_arrow)
+          settings_button.visibility = View.VISIBLE
 
-        trainingManager.stopTrainng()
-    }*/
+          trainingManager.stopTrainng()
+      }*/
 
     private class MyAmbientCallback : AmbientModeSupport.AmbientCallback() {
 

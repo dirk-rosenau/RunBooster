@@ -20,7 +20,7 @@ class AlarmHelper(private val context: Context) {
 
         alarmManager?.set(
             AlarmManager.RTC_WAKEUP,
-            System.currentTimeMillis() + time,
+            time,
             pendingIntent
         )
     }

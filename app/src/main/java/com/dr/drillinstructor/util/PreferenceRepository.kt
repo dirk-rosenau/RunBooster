@@ -11,4 +11,6 @@ interface PreferenceRepository {
     fun setLightModeDuration(duration: Long)
     fun setRandomizeTimes(randomize: Boolean)
     fun getRandomizeTimes(): Boolean
+    fun getNextModeChangeTime(): Long
+    fun setNextModeChangeTime(time: Long)
 }

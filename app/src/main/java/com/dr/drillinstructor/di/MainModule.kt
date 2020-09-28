@@ -2,7 +2,8 @@ package com.dr.drillinstructor.di
 
 import android.media.MediaPlayer
 import android.preference.PreferenceManager
-import com.dr.drillinstructor.ui.vm.MainActivityViewModel
+import com.dr.drillinstructor.ui.vm.InTrainingFragmentViewModel
+import com.dr.drillinstructor.ui.vm.MainFragmentViewModel
 import com.dr.drillinstructor.util.*
 import com.dr.drillinstructor.wrapper.AlarmHelper
 import com.dr.drillinstructor.wrapper.NotificationHelper
@@ -25,6 +26,7 @@ val mainModule = module {
     single { VibrationHelper(androidContext()) }
     single { TrainingStateProviderImpl(get()) as TrainingStateProvider } // do not delete cast
     single { PreferenceRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(androidContext())) as PreferenceRepository }
-    single { TrainingManager(get(), get(), get(), get(), get(), get())}
-    viewModel { MainActivityViewModel() }
+    single { TrainingManager(get(), get(), get(), get(), get(), get()) }
+    viewModel { MainFragmentViewModel() }
+    viewModel { InTrainingFragmentViewModel(get(), get()) }
 }

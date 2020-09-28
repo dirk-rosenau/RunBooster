@@ -10,6 +10,7 @@ class PreferenceRepositoryImpl(private val prefs: SharedPreferences) : Preferenc
         const val KEY_LIGHT_MODE_DURATION = "lightModeDuration"
         const val KEY_START_DELAY = "startDelay"
         const val KEY_RANDOMIZE_TIMES = "randomizeTimes"
+        const val NEXT_MODE_CHANGE = "nextModeChange"
 
     }
 
@@ -54,4 +55,13 @@ class PreferenceRepositoryImpl(private val prefs: SharedPreferences) : Preferenc
 
     override fun getRandomizeTimes(): Boolean =
         prefs.getBoolean(KEY_RANDOMIZE_TIMES, DEFAULT_RANDOMIZE_KEYS)
+
+
+    override fun getNextModeChangeTime(): Long =
+        prefs.getLong(NEXT_MODE_CHANGE, DEFAULT_NEXT_MODE_CHANGE_TIME)
+
+
+    override fun setNextModeChangeTime(time: Long) {
+        prefs.edit().putLong(NEXT_MODE_CHANGE, time).apply()
+    }
 }
