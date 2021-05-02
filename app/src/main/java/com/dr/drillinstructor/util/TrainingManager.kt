@@ -40,21 +40,35 @@ class TrainingManager(
             vibrationHelper.vibrateShort()
         }
         trainingStateProvider.setTrainingState(TrainingState.LIGHT)
-        preferenceRepository.getLightModeDuration().scheduleAsNextAlarm()
+        preferenceRepository.getLightModeDuration().toNextChangeTime().scheduleAsNextAlarm()
         notificationHelper.showNotification()
     }
 
     fun setHardMode() {
         Log.d("BroadcastReceiver", "enter hardMode")
         trainingStateProvider.setTrainingState(TrainingState.HARD)
-        preferenceRepository.getHardModeDuration().scheduleAsNextAlarm()
+        preferenceRepository.getHardModeDuration().toNextChangeTime().scheduleAsNextAlarm()
         vibrationHelper.vibrateHardMode()
         soundPlayer.playSound("gogogo.mp3")
     }
 
-    private fun Long.scheduleAsNextAlarm() {
-        val nextAlarmTime = System.currentTimeMillis() + this
-        preferenceRepository.setNextModeChangeTime(nextAlarmTime)
-        alarmHelper.setAlarm(nextAlarmTime)
+    fun resetTimer(): Long {
+        val nextTime = when (trainingStateProvider.getTrainingState()) {
+            TrainingState.LIGHT -> preferenceRepository.getHardModeDuration().toNextChangeTime()
+                .scheduleAsNextAlarm()
+            TrainingState.HARD -> preferenceRepository.getLightModeDuration().toNextChangeTime()
+                .scheduleAsNextAlarm()
+            else -> preferenceRepository.getLightModeDuration().toNextChangeTime()
+                .scheduleAsNextAlarm() // 0
+        }
+        return nextTime
+    }
+
+    private fun Long.toNextChangeTime() = System.currentTimeMillis() + this
+
+    private fun Long.scheduleAsNextAlarm(): Long {
+        preferenceRepository.setNextModeChangeTime(this)
+        alarmHelper.setAlarm(this)
+        return this
     }
 }

@@ -1,8 +1,9 @@
 package com.dr.drillinstructor.ui.vm
 
-import androidx.databinding.Bindable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.dr.drillinstructor.BR
+import com.dr.drillinstructor.ui.usecases.ResetTimerUseCase
 import com.dr.drillinstructor.util.ObservableViewModel
 import com.dr.drillinstructor.util.PreferenceRepository
 import com.dr.drillinstructor.util.TrainingManager
@@ -13,34 +14,45 @@ import java.util.concurrent.TimeUnit
 
 class InTrainingFragmentViewModel(
     private val repository: PreferenceRepository,
-    private val trainingManager: TrainingManager
+    private val trainingManager: TrainingManager,
+    private val resetTimerUseCase: ResetTimerUseCase
 ) : ObservableViewModel() {
 
-    @get:Bindable
-    var time: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.time)
-        }
+    val time = MutableLiveData<String>()
+    val mode = MutableLiveData<String>("Laufen")
 
-    var remainingTime: Long = 0
+    private val _stopClicked: MutableLiveData<Boolean> = MutableLiveData(false)
+    val stopClicked: LiveData<Boolean> = _stopClicked
 
-    var nextChangeTime: Long = 0
+    private var remainingTime: Long = 0
+
+    private var nextChangeTime: Long = 0
 
     fun onStopButtonClicked() {
+        _stopClicked.value = true
+    }
 
+    fun onReplayButtonClicked() {
+        resetTime()
+    }
+
+    fun onForwardButtonClicked() {
+        // TODO time + 10 seconds
+    }
+
+    fun onPauseButtonClicked() {
+        // TODO stop timer and wait
     }
 
     init {
-        nextChangeTime = System.currentTimeMillis() + (10 * 1000)
+        nextChangeTime = repository.getNextModeChangeTime()
+        //resetTime()
         startCoroutine()
     }
 
-    private fun initTime() {
-        //  nextChangeTime = repository.getNextModeChangeTime() - System.currentTimeMillis()
-        nextChangeTime = System.currentTimeMillis() + (10 * 1000)
+    private fun resetTime() {
+        nextChangeTime = trainingManager.resetTimer()
     }
-
 
     fun startCoroutine() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -52,32 +64,19 @@ class InTrainingFragmentViewModel(
         while (true) {
             remainingTime = nextChangeTime - System.currentTimeMillis()
             if (remainingTime <= 0) {
-                initTime()
+                resetTime()
+                // eigentlich müsste hier das training change zeug angefeuert werden,
+                // und nur wenn die app im hintergrund ist, sollte der alarm gestellt werden
             }
-            //Log.d("VM", "remaining: $remainingTime")
-            calculateTimes()
+            time.postValue(getFormattedRemainingTime())
             delay(10)
         }
     }
 
-    private fun calculateTimes() {
-        val theTime = String.format(
-            "%02d:%02d:%02d",
-            TimeUnit.MILLISECONDS.toMinutes(remainingTime),
-            TimeUnit.MILLISECONDS.toSeconds(remainingTime),
-            remainingTime / 10 % 100
-        )
-
-
-        time = theTime
-
-        /*  remainingMilliseconds = remainingTime.toInt()
-          remainingSeconds = (remainingTime / 1000).toInt()
-          remainingHours = (remainingTime / 1000 / 60).toInt()
-          Log.d("VM", "hours: $remainingHours")
-          Log.d("VM", "minutes: $remainingSeconds")
-          Log.d("VM", "$remainingMilliseconds")*/
-    }
-
-
+    private fun getFormattedRemainingTime() = String.format(
+        "%02d:%02d:%02d",
+        TimeUnit.MILLISECONDS.toMinutes(remainingTime),
+        remainingTime / 1000 % 60,
+        remainingTime / 10 % 100
+    )
 }

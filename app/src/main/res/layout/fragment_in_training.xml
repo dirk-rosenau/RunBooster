@@ -16,26 +16,77 @@
         app:boxedEdges="all">
 
         <TextView
+            android:id="@+id/mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacer_settings_top"
+            android:text="@{vm.mode}"
+            app:layout_constraintBottom_toTopOf="@+id/time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Laufen" />
+
+        <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacer_settings_top"
             android:text="@{vm.time}"
+            app:layout_constraintBottom_toTopOf="@+id/pause"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="10:00:00" />
 
         <ImageButton
-            android:id="@+id/play_button"
+            android:id="@+id/replayButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
-            android:onClick="@{() -> vm.onStopButtonClicked()}"
-            android:src="@drawable/ic_stop"
+            android:onClick="@{() -> vm.onReplayButtonClicked()}"
+            android:src="@drawable/ic_replay"
+            app:layout_constraintBottom_toBottomOf="@id/pause"
+            app:layout_constraintEnd_toStartOf="@id/pause"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/pause" />
+
+        <ImageButton
+            android:id="@+id/pause"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="@{() -> vm.onPauseButtonClicked()}"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_pause"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/time" />
+            app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/forwardButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="@{() -> vm.onForwardButtonClicked()}"
+            android:src="@drawable/ic_fast_forward"
+            app:layout_constraintBottom_toBottomOf="@id/pause"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/pause"
+            app:layout_constraintTop_toTopOf="@id/pause" />
+
+        <ImageButton
+            android:id="@+id/stop"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="@{() -> vm.onStopButtonClicked()}"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_stop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pause" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
