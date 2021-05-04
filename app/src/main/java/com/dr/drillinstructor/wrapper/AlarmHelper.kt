@@ -18,7 +18,7 @@ class AlarmHelper(private val context: Context) {
             alarmManager.cancel(pendingIntent)
         }
 
-        alarmManager?.set(
+        alarmManager?.setExact(
             AlarmManager.RTC_WAKEUP,
             time,
             pendingIntent

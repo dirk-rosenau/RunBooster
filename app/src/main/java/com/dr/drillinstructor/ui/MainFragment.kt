@@ -10,12 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.dr.drillinstructor.R
 import com.dr.drillinstructor.databinding.FragmentMainBinding
+import com.dr.drillinstructor.ui.vm.MainActivityViewModel
 import com.dr.drillinstructor.ui.vm.MainFragmentViewModel
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment() {
 
-    private val viewModel: MainFragmentViewModel by inject()
+    private val viewModel: MainFragmentViewModel by viewModel()
+    private val mainActivityViewModel: MainActivityViewModel by sharedViewModel()
     lateinit var binding: FragmentMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,10 +50,12 @@ class MainFragment : Fragment() {
 
     private fun handleSettingsButtonClicked() {
         Log.d("Blub", "settings clicked")
+        mainActivityViewModel.settingsButtonClicked()
     }
 
     private fun handlePlayButtonClick() {
         Log.d("Blub", "playClicked")
+        mainActivityViewModel.playButtonClicked()
     }
 
     companion object {

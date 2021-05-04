@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 
 class MainFragmentViewModel : ViewModel() {
 
-    private val _playButtonClicked: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _playButtonClicked: MutableLiveData<Boolean> = MutableLiveData()
     val playButtonClicked: LiveData<Boolean> = _playButtonClicked
 
-    private val _settingsButtonClicked: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _settingsButtonClicked: MutableLiveData<Boolean> = MutableLiveData()
     val settingsButtonClicked: LiveData<Boolean> = _settingsButtonClicked
 
     fun onPlayButtonClicked() {

@@ -1,20 +1,34 @@
 package com.dr.drillinstructor.ui
 
+import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.wear.ambient.AmbientModeSupport
 import com.dr.drillinstructor.R
+import com.dr.drillinstructor.ui.events.MainEvent
+import com.dr.drillinstructor.ui.events.OpenSettings
+import com.dr.drillinstructor.ui.events.StartTraining
+import com.dr.drillinstructor.ui.events.StopTraining
+import com.dr.drillinstructor.ui.vm.MainActivityViewModel
+import com.dr.drillinstructor.util.PreferenceRepository
 import com.dr.drillinstructor.util.TrainingManager
+import com.dr.drillinstructor.util.TrainingStateProvider
 import com.dr.drillinstructor.wrapper.VibrationHelper
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider {
 
     private val vibrationHelper: VibrationHelper by inject()
+    private val preferenceRepository: PreferenceRepository by inject()
     private val trainingManager: TrainingManager by inject()
 
     private lateinit var ambientController: AmbientModeSupport.AmbientController
+
+    private val viewModel by viewModel<MainActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,18 +36,51 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
         ambientController = AmbientModeSupport.attach(this)
 
-        // decide correct mode
-        val mainFragment = InTrainingFragment.newInstance()
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, mainFragment)
-            .commit()
 
         /*  initPlayButton()
           initButtonClickListeners()*/
+        observeEvents()
+    }
+
+    private fun observeEvents() {
+        viewModel.mainEventLiveData.observe(this, Observer(this::handleEvent))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val fragment =
+            if (trainingManager.isTrainingStarted()) InTrainingFragment.newInstance() else MainFragment.newInstance()
+        showFragment(fragment)
+    }
+
+    private fun showFragment(fragment: Fragment) {
+        // find fragment by tag (das jeweils andere), dann add fragment by tag
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
+            .commit()
+    }
+
+    private fun handleEvent(event: MainEvent) {
+        when (event) {
+            OpenSettings -> openSettings()
+            StartTraining -> handlePlayPressed()
+            StopTraining -> handleStopPressed()
+        }
+    }
+
+    private fun handlePlayPressed() {
+        showFragment(InTrainingFragment.newInstance())
+        trainingManager.setLightMode()
+    }
+
+    private fun openSettings() {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
     }
 
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback = MyAmbientCallback()
 
 
+    // old stuff
     /*  private fun initButtonClickListeners() {
           play_button.setOnClickListener {
               togglePlay()
@@ -42,11 +89,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
           settings_button.setOnClickListener {
               openSettings()
           }
-      }
-
-      private fun openSettings() {
-          val intent = Intent(this, SettingsActivity::class.java)
-          startActivity(intent)
       }
 
       private fun initPlayButton() {
@@ -64,19 +106,13 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
           }
           vibrationHelper.vibrateShort()
       }
+*/
+    private fun handleStopPressed() {
+        trainingManager.stopTrainng()
+        // TODO nicht neue instance sondern finden!!
+        showFragment(MainFragment.newInstance())
+    }
 
-      private fun handlePlayPressed() {
-          play_button.setImageResource(R.drawable.ic_stop)
-          settings_button.visibility = View.INVISIBLE
-          trainingManager.setLightMode()
-      }
-
-      private fun handleStopPressed() {
-          play_button.setImageResource(R.drawable.ic_play_arrow)
-          settings_button.visibility = View.VISIBLE
-
-          trainingManager.stopTrainng()
-      }*/
 
     private class MyAmbientCallback : AmbientModeSupport.AmbientCallback() {
 

@@ -4,6 +4,7 @@ import android.media.MediaPlayer
 import androidx.preference.PreferenceManager
 import com.dr.drillinstructor.ui.usecases.ResetTimerUseCase
 import com.dr.drillinstructor.ui.vm.InTrainingFragmentViewModel
+import com.dr.drillinstructor.ui.vm.MainActivityViewModel
 import com.dr.drillinstructor.ui.vm.MainFragmentViewModel
 import com.dr.drillinstructor.util.*
 import com.dr.drillinstructor.wrapper.AlarmHelper
@@ -29,6 +30,7 @@ val mainModule = module {
     single { PreferenceRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(androidContext())) as PreferenceRepository }
     single { TrainingManager(get(), get(), get(), get(), get(), get()) }
     factory { ResetTimerUseCase(get()) }
+    viewModel { MainActivityViewModel() }
     viewModel { MainFragmentViewModel() }
-    viewModel { InTrainingFragmentViewModel(get(), get(), get()) }
+    viewModel { InTrainingFragmentViewModel(get(), get(), get(), get()) }
 }
