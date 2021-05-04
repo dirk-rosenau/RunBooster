@@ -84,7 +84,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         showFragment(MainFragment.newInstance())
     }
 
-
+// TODO was heisst E/ViewRootImpl[MainActivity]: Error on detecting ambient animations
     private class MyAmbientCallback : AmbientModeSupport.AmbientCallback() {
 
         override fun onEnterAmbient(ambientDetails: Bundle?) {
