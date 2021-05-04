@@ -22,6 +22,11 @@ class TrainingManager(
         }
     }
 
+    fun startTraining() {
+        notificationHelper.showNotification()
+        setLightMode()
+    }
+
     fun stopTrainng() {
         alarmHelper.cancelAlarm()
         trainingStateProvider.setTrainingState(TrainingState.IDLE)
@@ -31,7 +36,7 @@ class TrainingManager(
     fun isTrainingStarted(): Boolean =
         preferenceRepository.getTrainingState() != TrainingState.IDLE
 
-    fun setLightMode() {
+    private fun setLightMode() {
         Log.d("BroadcastReceiver", "enter LightMode")
         if (trainingStateProvider.getTrainingState() == TrainingState.HARD) {
             soundPlayer.playSound("outstanding.mp3")
@@ -41,39 +46,14 @@ class TrainingManager(
         }
         preferenceRepository.getLightModeDuration().toNextChangeTime().scheduleAsNextAlarm()
         trainingStateProvider.setTrainingState(TrainingState.LIGHT)
-        notificationHelper.showNotification()
     }
 
-    fun setHardMode() {
+    private fun setHardMode() {
         Log.d("BroadcastReceiver", "enter hardMode")
         preferenceRepository.getHardModeDuration().toNextChangeTime().scheduleAsNextAlarm()
         trainingStateProvider.setTrainingState(TrainingState.HARD)
         vibrationHelper.vibrateHardMode()
         soundPlayer.playSound("gogogo.mp3")
-    }
-
-    fun scheduleNextRun(actualState: TrainingState) {
-        val duration = when (actualState) {
-            TrainingState.HARD -> preferenceRepository.getHardModeDuration()
-            TrainingState.LIGHT -> preferenceRepository.getLightModeDuration()
-            else -> -1
-        }
-        if (duration > 0) {
-            duration.toNextChangeTime().scheduleAsNextAlarm()
-        }
-
-    }
-
-    fun resetTimer(): Long {
-        val nextTime = when (trainingStateProvider.getTrainingState()) {
-            TrainingState.LIGHT -> preferenceRepository.getHardModeDuration().toNextChangeTime()
-                .scheduleAsNextAlarm()
-            TrainingState.HARD -> preferenceRepository.getLightModeDuration().toNextChangeTime()
-                .scheduleAsNextAlarm()
-            else -> preferenceRepository.getLightModeDuration().toNextChangeTime()
-                .scheduleAsNextAlarm() // 0
-        }
-        return nextTime
     }
 
     private fun Long.toNextChangeTime() = System.currentTimeMillis() + this

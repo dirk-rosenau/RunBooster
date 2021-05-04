@@ -73,9 +73,9 @@ class InTrainingFragmentViewModel(
     private suspend fun runTimer() {
         while (true) {
             val remainingTime: Long = nextChangeTime - System.currentTimeMillis()
-            //    if (remainingTime >= 0) {
-            time.postValue(getFormattedRemainingTime(remainingTime))
-            //  }
+            if (remainingTime >= 0) {
+                time.postValue(getFormattedRemainingTime(remainingTime))
+            }
             delay(10)
         }
     }

@@ -23,7 +23,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider {
 
     private val vibrationHelper: VibrationHelper by inject()
-    private val preferenceRepository: PreferenceRepository by inject()
     private val trainingManager: TrainingManager by inject()
 
     private lateinit var ambientController: AmbientModeSupport.AmbientController
@@ -36,9 +35,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
         ambientController = AmbientModeSupport.attach(this)
 
-
-        /*  initPlayButton()
-          initButtonClickListeners()*/
         observeEvents()
     }
 
@@ -69,7 +65,8 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
     private fun handlePlayPressed() {
         showFragment(InTrainingFragment.newInstance())
-        trainingManager.setLightMode()
+        vibrationHelper.vibrateShort()
+        trainingManager.startTraining()
     }
 
     private fun openSettings() {
@@ -80,35 +77,9 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback = MyAmbientCallback()
 
 
-    // old stuff
-    /*  private fun initButtonClickListeners() {
-          play_button.setOnClickListener {
-              togglePlay()
-          }
-
-          settings_button.setOnClickListener {
-              openSettings()
-          }
-      }
-
-      private fun initPlayButton() {
-          if (trainingManager.isTrainingStarted()) {
-              play_button.setImageResource(R.drawable.ic_stop)
-              settings_button.visibility = View.INVISIBLE
-          }
-      }
-
-      private fun togglePlay() {
-          if (trainingManager.isTrainingStarted()) {
-              handleStopPressed()
-          } else {
-              handlePlayPressed()
-          }
-          vibrationHelper.vibrateShort()
-      }
-*/
     private fun handleStopPressed() {
         trainingManager.stopTrainng()
+        vibrationHelper.vibrateShort()
         // TODO nicht neue instance sondern finden!!
         showFragment(MainFragment.newInstance())
     }

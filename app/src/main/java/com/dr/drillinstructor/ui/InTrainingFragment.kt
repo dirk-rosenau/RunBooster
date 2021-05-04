@@ -20,8 +20,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class InTrainingFragment : Fragment() {
 
     private val viewModel: InTrainingFragmentViewModel by viewModel()
-    private val trainingStateProvider: TrainingStateProvider by inject()
     private val mainActivityViewModel: MainActivityViewModel by sharedViewModel()
+    private val trainingStateProvider: TrainingStateProvider by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
