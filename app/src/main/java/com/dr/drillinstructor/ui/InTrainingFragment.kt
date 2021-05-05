@@ -37,7 +37,9 @@ class InTrainingFragment : Fragment() {
 
     private fun observeEvents() {
         viewModel.events.observe(viewLifecycleOwner, Observer(::handleEvent))
-        trainingStateProvider.liveTrainingState.observe(viewLifecycleOwner, Observer { state -> viewModel.setTrainingState(state) })
+        trainingStateProvider.liveTrainingState.observe(
+            viewLifecycleOwner,
+            Observer { state -> viewModel.setTrainingState(state) })
     }
 
     private fun handleEvent(event: TrainingEvent) {

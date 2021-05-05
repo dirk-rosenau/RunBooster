@@ -13,4 +13,8 @@ interface PreferenceRepository {
     fun getRandomizeTimes(): Boolean
     fun getNextModeChangeTime(): Long
     fun setNextModeChangeTime(time: Long)
+    fun isPaused(): Boolean
+    fun setIsPaused(paused: Boolean)
+    fun setRemainingTimeBeforePause(time: Long)
+    fun getRemainingTimeBeforePause(): Long
 }

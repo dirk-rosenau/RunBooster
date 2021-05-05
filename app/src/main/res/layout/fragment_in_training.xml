@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.dr.drillinstructor.ui.vm.InTrainingFragmentViewModel" />
@@ -22,6 +24,7 @@
             android:layout_marginTop="16dp"
             android:text="@{vm.time}"
             android:textSize="@dimen/font_size_time"
+            android:visibility="@{vm.isTimeLabelVisible() ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -32,8 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:textSize="@dimen/font_size_mode"
             android:text="@{vm.mode}"
+            android:textSize="@dimen/font_size_mode"
             app:layout_constraintBottom_toTopOf="@+id/pause"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

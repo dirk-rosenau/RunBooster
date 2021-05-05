@@ -11,6 +11,8 @@ class PreferenceRepositoryImpl(private val prefs: SharedPreferences) : Preferenc
         const val KEY_START_DELAY = "startDelay"
         const val KEY_RANDOMIZE_TIMES = "randomizeTimes"
         const val NEXT_MODE_CHANGE = "nextModeChange"
+        const val KEY_PAUSED = "paused"
+        const val KEY_REMAINING_TIME_BEFORE_PAUSE = "remainingTimeBeforePause"
 
     }
 
@@ -21,6 +23,17 @@ class PreferenceRepositoryImpl(private val prefs: SharedPreferences) : Preferenc
         } else
             return TrainingState.IDLE
     }
+
+    override fun isPaused(): Boolean = prefs.getBoolean(KEY_PAUSED, false)
+
+    override fun setIsPaused(paused: Boolean) = prefs.edit().putBoolean(KEY_PAUSED, paused).apply()
+
+    override fun setRemainingTimeBeforePause(time: Long) {
+        prefs.edit().putLong(KEY_REMAINING_TIME_BEFORE_PAUSE, time).apply()
+    }
+
+    override fun getRemainingTimeBeforePause(): Long =
+        prefs.getLong(KEY_REMAINING_TIME_BEFORE_PAUSE, 0L)
 
     override fun setTrainingState(trainingState: TrainingState) {
         prefs.edit().putString(KEY_TRAINING_STATE, trainingState.name).apply()

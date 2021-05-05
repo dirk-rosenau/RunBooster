@@ -24,6 +24,7 @@ class TrainingManager(
 
     fun startTraining() {
         notificationHelper.showNotification()
+        preferenceRepository.setIsPaused(false)
         setLightMode()
     }
 
@@ -43,6 +44,25 @@ class TrainingManager(
         }
         nextDuration.toNextChangeTime().scheduleAsNextAlarm()
         trainingStateProvider.setTrainingState(trainingState) // refresh
+    }
+
+    fun toggleTrainingMode() {
+        alarmHelper.cancelAlarm()
+        evaluateTrainingState()
+    }
+
+    fun togglePause(remainingTime: Long) {
+        val isPaused = preferenceRepository.isPaused()
+        preferenceRepository.setIsPaused(!isPaused)
+        if (!isPaused) {
+            alarmHelper.cancelAlarm()
+            // save actual remaining time
+            preferenceRepository.setRemainingTimeBeforePause(remainingTime)
+        } else {
+            val newRemainingTime = preferenceRepository.getRemainingTimeBeforePause()
+            newRemainingTime.toNextChangeTime().scheduleAsNextAlarm()
+            trainingStateProvider.setTrainingState(trainingStateProvider.getTrainingState()) // refresh vm
+        }
     }
 
     fun isTrainingStarted(): Boolean =

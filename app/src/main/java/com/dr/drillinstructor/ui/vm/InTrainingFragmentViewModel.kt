@@ -15,25 +15,36 @@ import java.util.concurrent.TimeUnit
 
 class InTrainingFragmentViewModel(
     private val repository: PreferenceRepository,
-    private val trainingManager: TrainingManager,
-    private val resetTimerUseCase: ResetTimerUseCase,
-    private val trainingStateProvider: TrainingStateProvider
+    private val trainingManager: TrainingManager
 ) : ObservableViewModel() {
 
-    val time = MutableLiveData<String>()
-    val mode = MutableLiveData<String>("Laufen")
+    private val _time = MutableLiveData<String>()
+    val time: LiveData<String> = _time
+    private val _mode = MutableLiveData<String>("Laufen")
+    val mode: LiveData<String> = _mode
 
+    private val _isTimeLabelVisible = MutableLiveData<Boolean>(true)
+    val isTimeLabelVisible: LiveData<Boolean> = _isTimeLabelVisible
 
     private val _events = MutableLiveData<TrainingEvent>()
     val events: LiveData<TrainingEvent> = _events
 
+    private var isPaused = repository.isPaused()
+
     private var nextChangeTime: Long = 0
 
-    private fun changeTrainingStateDisplay(state: TrainingState?) {
-        if (state == TrainingState.HARD) {
-            mode.postValue("Sprint!")
-        } else {
-            mode.postValue("Laufen")
+    init {
+        nextChangeTime = repository.getNextModeChangeTime()
+        if (isPaused) {
+            _time.postValue(getFormattedRemainingTime(repository.getRemainingTimeBeforePause()))
+        }
+        startTimerCoroutine()
+        animateTimeLabelPauseMode()
+    }
+
+    private fun startTimerCoroutine() {
+        viewModelScope.launch(Dispatchers.IO) {
+            runTimer()
         }
     }
 
@@ -42,33 +53,51 @@ class InTrainingFragmentViewModel(
     }
 
     fun onReplayButtonClicked() {
+        stopPauseModeIfNecessary()
         trainingManager.resetTraining()
     }
 
     fun onForwardButtonClicked() {
-        // TODO time + 10 seconds
+        stopPauseModeIfNecessary()
+        trainingManager.toggleTrainingMode()
     }
 
     fun onPauseButtonClicked() {
-        // TODO stop timer and wait
+        isPaused = !isPaused
+        trainingManager.togglePause(nextChangeTime - System.currentTimeMillis())
+        animateTimeLabelPauseMode()
     }
 
-    init {
-        nextChangeTime = repository.getNextModeChangeTime()
-        startCoroutine()
-    }
-
-    private fun startCoroutine() {
-        viewModelScope.launch(Dispatchers.IO) {
-            runTimer()
+    private fun stopPauseModeIfNecessary() {
+        if (isPaused) {
+            onPauseButtonClicked()
         }
+    }
+
+    private fun changeTrainingStateDisplay(state: TrainingState?) {
+        if (state == TrainingState.HARD) {
+            _mode.postValue("Sprint!")
+        } else {
+            _mode.postValue("Laufen")
+        }
+    }
+
+    private fun animateTimeLabelPauseMode() {
+        viewModelScope.launch {
+            while (isPaused) {
+                _isTimeLabelVisible.value = _isTimeLabelVisible.value?.not()
+                delay(600)
+            }
+            _isTimeLabelVisible.value = true
+        }
+
     }
 
     private suspend fun runTimer() {
         while (true) {
             val remainingTime: Long = nextChangeTime - System.currentTimeMillis()
-            if (remainingTime >= 0) {
-                time.postValue(getFormattedRemainingTime(remainingTime))
+            if (remainingTime >= 0 && !isPaused) {
+                _time.postValue(getFormattedRemainingTime(remainingTime))
             }
             delay(10)
         }
