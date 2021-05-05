@@ -42,7 +42,7 @@ class InTrainingFragmentViewModel(
     }
 
     fun onReplayButtonClicked() {
-        resetTime()
+        trainingManager.resetTraining()
     }
 
     fun onForwardButtonClicked() {
@@ -55,16 +55,10 @@ class InTrainingFragmentViewModel(
 
     init {
         nextChangeTime = repository.getNextModeChangeTime()
-        //resetTime()
         startCoroutine()
     }
 
-    private fun resetTime() {
-        //  nextChangeTime = trainingManager.resetTimer()
-        nextChangeTime = repository.getNextModeChangeTime()
-    }
-
-    fun startCoroutine() {
+    private fun startCoroutine() {
         viewModelScope.launch(Dispatchers.IO) {
             runTimer()
         }

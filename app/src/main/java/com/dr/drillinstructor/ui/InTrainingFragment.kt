@@ -53,7 +53,6 @@ class InTrainingFragment : Fragment() {
     }
 
     companion object {
-
         @JvmStatic
         fun newInstance() =
             InTrainingFragment()

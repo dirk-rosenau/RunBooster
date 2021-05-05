@@ -33,6 +33,18 @@ class TrainingManager(
         notificationHelper.dismissNotification()
     }
 
+    fun resetTraining() {
+        alarmHelper.cancelAlarm()
+        val trainingState = trainingStateProvider.getTrainingState()
+        val nextDuration = if (trainingState == TrainingState.HARD) {
+            preferenceRepository.getHardModeDuration()
+        } else {
+            preferenceRepository.getLightModeDuration()
+        }
+        nextDuration.toNextChangeTime().scheduleAsNextAlarm()
+        trainingStateProvider.setTrainingState(trainingState) // refresh
+    }
+
     fun isTrainingStarted(): Boolean =
         preferenceRepository.getTrainingState() != TrainingState.IDLE
 
