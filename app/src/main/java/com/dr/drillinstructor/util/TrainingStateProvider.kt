@@ -1,5 +1,6 @@
 package com.dr.drillinstructor.util
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 interface TrainingStateProvider {
@@ -7,5 +8,5 @@ interface TrainingStateProvider {
     fun setTrainingState(trainingState: TrainingState)
 
     // TODO state flow?
-    val liveTrainingState: MutableLiveData<TrainingState>
+    val liveTrainingState: LiveData<TrainingState>
 }
