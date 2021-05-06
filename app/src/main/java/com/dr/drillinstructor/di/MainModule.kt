@@ -11,6 +11,7 @@ import com.dr.drillinstructor.wrapper.AlarmHelper
 import com.dr.drillinstructor.wrapper.NotificationHelper
 import com.dr.drillinstructor.wrapper.SoundPlayer
 import com.dr.drillinstructor.wrapper.VibrationHelper
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -32,5 +33,5 @@ val mainModule = module {
     factory { ResetTimerUseCase(get()) }
     viewModel { MainActivityViewModel() }
     viewModel { MainFragmentViewModel() }
-    viewModel { InTrainingFragmentViewModel(get(), get()) }
+    viewModel { InTrainingFragmentViewModel(androidApplication(), get(), get()) }
 }

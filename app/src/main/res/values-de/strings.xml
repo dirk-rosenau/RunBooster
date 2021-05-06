@@ -11,4 +11,6 @@
     <string name="channel_name">Beim Training</string>
     <string name="channel_description">Während des Training Modus anzeigen</string>
     <string name="notification_run_mode_active">Trainingmodus aktiv</string>
+    <string name="sprint_mode">Sprint</string>
+    <string name="jogging_mode">Joggen</string>
 </resources>

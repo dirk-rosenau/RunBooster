@@ -1,26 +1,32 @@
 package com.dr.drillinstructor.ui.vm
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.dr.drillinstructor.R
 import com.dr.drillinstructor.ui.events.StopClicked
 import com.dr.drillinstructor.ui.events.TrainingEvent
-import com.dr.drillinstructor.ui.usecases.ResetTimerUseCase
-import com.dr.drillinstructor.util.*
+import com.dr.drillinstructor.util.PreferenceRepository
+import com.dr.drillinstructor.util.TrainingManager
+import com.dr.drillinstructor.util.TrainingState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
+
 class InTrainingFragmentViewModel(
+    application: Application,
     private val repository: PreferenceRepository,
     private val trainingManager: TrainingManager
-) : ObservableViewModel() {
+) : AndroidViewModel(application) {
 
     private val _time = MutableLiveData<String>()
     val time: LiveData<String> = _time
-    private val _mode = MutableLiveData<String>("Laufen")
+    private val _mode = MutableLiveData<String>()
     val mode: LiveData<String> = _mode
 
     private val _isTimeLabelVisible = MutableLiveData<Boolean>(true)
@@ -35,6 +41,7 @@ class InTrainingFragmentViewModel(
 
     init {
         nextChangeTime = repository.getNextModeChangeTime()
+        setTrainingModeLabel(R.string.jogging_mode)
         if (isPaused) {
             _time.postValue(getFormattedRemainingTime(repository.getRemainingTimeBeforePause()))
         }
@@ -75,11 +82,16 @@ class InTrainingFragmentViewModel(
     }
 
     private fun changeTrainingStateDisplay(state: TrainingState?) {
-        if (state == TrainingState.HARD) {
-            _mode.postValue("Sprint!")
+        val resId = if (state == TrainingState.HARD) {
+            R.string.sprint_mode
         } else {
-            _mode.postValue("Laufen")
+            R.string.jogging_mode
         }
+        setTrainingModeLabel(resId)
+    }
+
+    private fun setTrainingModeLabel(resId: Int) {
+        _mode.postValue(getApplication<Application>().getString(resId))
     }
 
     private fun animateTimeLabelPauseMode() {
