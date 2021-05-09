@@ -18,30 +18,32 @@
         app:boxedEdges="all">
 
         <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@{vm.time}"
-            android:textSize="@dimen/font_size_time"
-            android:visibility="@{vm.isTimeLabelVisible() ? View.VISIBLE : View.INVISIBLE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="10:00:00" />
-
-        <TextView
             android:id="@+id/mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="20dp"
             android:text="@{vm.mode}"
             android:textSize="@dimen/font_size_mode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Laufen" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:text="@{vm.time}"
+            android:textSize="@dimen/font_size_time"
+            android:textStyle="bold"
+            android:visibility="@{vm.isTimeLabelVisible() ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toTopOf="@+id/pause"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/time"
-            tools:text="Laufen" />
+            app:layout_constraintTop_toBottomOf="@id/mode"
+            tools:text="10:00:00" />
 
         <ImageButton
             android:id="@+id/replayButton"
