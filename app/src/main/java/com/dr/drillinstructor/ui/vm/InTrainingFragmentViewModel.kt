@@ -29,8 +29,11 @@ class InTrainingFragmentViewModel(
     private val _mode = MutableLiveData<String>()
     val mode: LiveData<String> = _mode
 
-    private val _isTimeLabelVisible = MutableLiveData<Boolean>(true)
-    val isTimeLabelVisible: LiveData<Boolean> = _isTimeLabelVisible
+    private val _isTimeLabelVisiblePause = MutableLiveData<Boolean>(true)
+    val isTimeLabelVisiblePause: LiveData<Boolean> = _isTimeLabelVisiblePause
+
+    private val _isTimeLabelVisibleResetOrForward = MutableLiveData<Boolean>(true)
+    val isTimeLabelVisibleResetOrForward: LiveData<Boolean> = _isTimeLabelVisibleResetOrForward
 
     private val _events = MutableLiveData<TrainingEvent>()
     val events: LiveData<TrainingEvent> = _events
@@ -62,11 +65,13 @@ class InTrainingFragmentViewModel(
     fun onReplayButtonClicked() {
         stopPauseModeIfNecessary()
         trainingManager.resetTraining()
+        animateTimeLabelResetOrForward()
     }
 
     fun onForwardButtonClicked() {
         stopPauseModeIfNecessary()
         trainingManager.toggleTrainingMode()
+        animateTimeLabelResetOrForward()
     }
 
     fun onPauseButtonClicked() {
@@ -97,12 +102,19 @@ class InTrainingFragmentViewModel(
     private fun animateTimeLabelPauseMode() {
         viewModelScope.launch {
             while (isPaused) {
-                _isTimeLabelVisible.value = _isTimeLabelVisible.value?.not()
+                _isTimeLabelVisiblePause.value = _isTimeLabelVisiblePause.value?.not()
                 delay(600)
             }
-            _isTimeLabelVisible.value = true
+            _isTimeLabelVisiblePause.value = true
         }
+    }
 
+    private fun animateTimeLabelResetOrForward() {
+        viewModelScope.launch {
+            _isTimeLabelVisibleResetOrForward.value = false
+            delay(200)
+            _isTimeLabelVisibleResetOrForward.value = true
+        }
     }
 
     private suspend fun runTimer() {
