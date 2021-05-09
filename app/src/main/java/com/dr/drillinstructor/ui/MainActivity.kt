@@ -2,8 +2,8 @@ package com.dr.drillinstructor.ui
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.wear.ambient.AmbientModeSupport
 import com.dr.drillinstructor.R
@@ -12,9 +12,7 @@ import com.dr.drillinstructor.ui.events.OpenSettings
 import com.dr.drillinstructor.ui.events.StartTraining
 import com.dr.drillinstructor.ui.events.StopTraining
 import com.dr.drillinstructor.ui.vm.MainActivityViewModel
-import com.dr.drillinstructor.util.PreferenceRepository
 import com.dr.drillinstructor.util.TrainingManager
-import com.dr.drillinstructor.util.TrainingStateProvider
 import com.dr.drillinstructor.wrapper.VibrationHelper
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,14 +42,25 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
     override fun onResume() {
         super.onResume()
-        val fragment =
-            if (trainingManager.isTrainingStarted()) InTrainingFragment.newInstance() else MainFragment.newInstance()
-        showFragment(fragment)
+        val tag =
+            if (trainingManager.isTrainingStarted()) TAG_TRAINING else TAG_MAIN
+        showFragment(tag, false)
     }
 
-    private fun showFragment(fragment: Fragment) {
+    private fun showFragment(tag: String, animate: Boolean) {
+        var fragment = supportFragmentManager.findFragmentByTag(tag)
+        if (fragment == null) {
+            fragment = when (tag) {
+                TAG_MAIN -> MainFragment.newInstance()
+                TAG_TRAINING -> InTrainingFragment.newInstance()
+                else -> throw IllegalArgumentException("Wrong Fragment Tag!")
+            }
+        }
+
         // find fragment by tag (das jeweils andere), dann add fragment by tag
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
+        supportFragmentManager.beginTransaction()
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .replace(R.id.fragment_container, fragment, tag)
             .commit()
     }
 
@@ -64,7 +73,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
     }
 
     private fun handlePlayPressed() {
-        showFragment(InTrainingFragment.newInstance())
+        showFragment(TAG_TRAINING, true)
         vibrationHelper.vibrateShort()
         trainingManager.startTraining()
     }
@@ -80,11 +89,10 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
     private fun handleStopPressed() {
         trainingManager.stopTrainng()
         vibrationHelper.vibrateShort()
-        // TODO nicht neue instance sondern finden!!
-        showFragment(MainFragment.newInstance())
+        showFragment(TAG_MAIN, true)
     }
 
-// TODO was heisst E/ViewRootImpl[MainActivity]: Error on detecting ambient animations
+    // TODO was heisst E/ViewRootImpl[MainActivity]: Error on detecting ambient animations
     private class MyAmbientCallback : AmbientModeSupport.AmbientCallback() {
 
         override fun onEnterAmbient(ambientDetails: Bundle?) {
@@ -98,6 +106,11 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         override fun onUpdateAmbient() {
             // Update the content
         }
+    }
+
+    companion object {
+        const val TAG_MAIN = "main"
+        const val TAG_TRAINING = "training"
     }
 
 }
