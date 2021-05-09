@@ -35,6 +35,7 @@ class TrainingManager(
     }
 
     fun resetTraining() {
+        vibrationHelper.vibrateShort()
         alarmHelper.cancelAlarm()
         val trainingState = trainingStateProvider.getTrainingState()
         val nextDuration = if (trainingState == TrainingState.HARD) {
@@ -47,11 +48,13 @@ class TrainingManager(
     }
 
     fun toggleTrainingMode() {
+        vibrationHelper.vibrateShort()
         alarmHelper.cancelAlarm()
         evaluateTrainingState()
     }
 
     fun togglePause(remainingTime: Long) {
+        vibrationHelper.vibrateShort()
         val isPaused = preferenceRepository.isPaused()
         preferenceRepository.setIsPaused(!isPaused)
         if (!isPaused) {
