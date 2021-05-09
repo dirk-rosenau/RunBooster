@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="numberpicker_textSize">
-        <item name="android:textSize">48sp</item>
+    <style name="AppTheme" parent="Theme.Wearable">
+        <item name="android:background">#19220E</item>
     </style>
 </resources>

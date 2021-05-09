@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
     android:padding="@dimen/box_inset_layout_padding"
     tools:context=".ui.SettingsActivity"
     tools:deviceIds="wear">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
         app:boxedEdges="all"
         tools:ignore="MissingPrefix">
 

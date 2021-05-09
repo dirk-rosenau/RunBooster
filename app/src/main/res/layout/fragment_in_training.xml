@@ -21,7 +21,7 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="@{vm.time}"
             android:textSize="@dimen/font_size_time"
             android:visibility="@{vm.isTimeLabelVisible() ? View.VISIBLE : View.INVISIBLE}"
@@ -41,7 +41,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/time"
-
             tools:text="Laufen" />
 
         <ImageButton
@@ -60,10 +59,23 @@
             android:id="@+id/pause"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_marginTop="30dp"
             android:background="?android:attr/selectableItemBackground"
-            android:onClick="@{() -> vm.onPauseButtonClicked()}"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_pause"
+            android:visibility="@{vm.isTimeLabelVisible() ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/pause2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:onClick="@{() -> vm.onPauseButtonClicked()}"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -74,7 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
-            android:onClick="@{() -> vm.onForwardButtonClicked()}"
+            android:onClick="@{() -> vm.onPauseButtonClicked()}"
             android:src="@drawable/ic_fast_forward"
             app:layout_constraintBottom_toBottomOf="@id/pause"
             app:layout_constraintEnd_toEndOf="parent"
