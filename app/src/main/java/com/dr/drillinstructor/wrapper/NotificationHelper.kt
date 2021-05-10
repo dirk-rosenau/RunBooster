@@ -26,7 +26,7 @@ class NotificationHelper(private val context: Context) {
         val pendingIntent: PendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
 
         val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_directions_run)
+            .setSmallIcon(R.drawable.ic_sprint)
             .setContentTitle(context.getString(R.string.app_name))
             .setContentText(context.getString(R.string.notification_run_mode_active))
             .setContentIntent(pendingIntent)
