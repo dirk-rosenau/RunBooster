@@ -28,15 +28,15 @@
 
         <ImageButton
             android:id="@+id/play_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{() -> vm.onPlayButtonClicked()}"
             android:src="@drawable/ic_play_arrow"
-            app:layout_constraintBottom_toTopOf="@id/settings_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text1" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/settings_button"
