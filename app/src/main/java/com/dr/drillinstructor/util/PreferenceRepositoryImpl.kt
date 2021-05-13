@@ -13,6 +13,8 @@ class PreferenceRepositoryImpl(private val prefs: SharedPreferences) : Preferenc
         const val NEXT_MODE_CHANGE = "nextModeChange"
         const val KEY_PAUSED = "paused"
         const val KEY_REMAINING_TIME_BEFORE_PAUSE = "remainingTimeBeforePause"
+        const val START_TIME = "startTime"
+        const val PAUSE_ENTER_TIME = "pauseEnterTime"
 
     }
 
@@ -34,6 +36,19 @@ class PreferenceRepositoryImpl(private val prefs: SharedPreferences) : Preferenc
 
     override fun getRemainingTimeBeforePause(): Long =
         prefs.getLong(KEY_REMAINING_TIME_BEFORE_PAUSE, 0L)
+
+    override fun setTrainingStartTime(time: Long) {
+        prefs.edit().putLong(START_TIME, time).apply()
+    }
+
+    override fun getTrainingStartTime(): Long = prefs.getLong(START_TIME, 0)
+
+    override fun setEnterPauseTime(time: Long) {
+        prefs.edit().putLong(PAUSE_ENTER_TIME, time).apply()
+    }
+
+    override fun getEnterPauseTime(): Long = prefs.getLong(PAUSE_ENTER_TIME, 0)
+
 
     override fun setTrainingState(trainingState: TrainingState) {
         prefs.edit().putString(KEY_TRAINING_STATE, trainingState.name).apply()

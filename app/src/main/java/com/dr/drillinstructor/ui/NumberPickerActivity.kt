@@ -3,6 +3,7 @@ package com.dr.drillinstructor.ui
 import android.os.Bundle
 import android.support.wearable.activity.WearableActivity
 import com.dr.drillinstructor.R
+import com.dr.drillinstructor.tracking.FirebaseTracker
 import com.dr.drillinstructor.util.*
 import kotlinx.android.synthetic.main.activity_number_picker.*
 import org.koin.android.ext.android.inject
@@ -10,6 +11,7 @@ import org.koin.android.ext.android.inject
 class NumberPickerActivity : WearableActivity() {
 
     private val preferenceRepository: PreferenceRepository by inject()
+    private val tracker: FirebaseTracker by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +27,14 @@ class NumberPickerActivity : WearableActivity() {
         // huge smell
         when (intent.getStringExtra(BUNDLE_START_MODE_VALUE)) {
             BUNDLE_LIGHT_MODE -> {
-                preferenceRepository.setLightModeDuration(result * 1000 * 60L)
+                val duration = result * 1000 * 60L
+                tracker.setJoggingTime(duration)
+                preferenceRepository.setLightModeDuration(duration)
             }
             BUNDLE_HARD_MODE -> {
-                preferenceRepository.setHardModeDuration(result * 1000L)
+                val duration = result * 1000L
+                tracker.setSprintTime(duration)
+                preferenceRepository.setHardModeDuration(duration)
             }
             BUNDLE_STARTIME -> {
                 preferenceRepository.setStartDelay(result * 1000 * 60L)

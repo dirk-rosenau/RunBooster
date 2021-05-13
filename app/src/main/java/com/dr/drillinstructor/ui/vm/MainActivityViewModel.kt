@@ -9,7 +9,7 @@ import com.dr.drillinstructor.ui.events.StartTraining
 import com.dr.drillinstructor.ui.events.StopTraining
 
 class MainActivityViewModel : ViewModel() {
-    val _mainEventLiveData = MutableLiveData<MainEvent>()
+    private val _mainEventLiveData = MutableLiveData<MainEvent>()
     val mainEventLiveData: LiveData<MainEvent> = _mainEventLiveData
 
     fun settingsButtonClicked() {

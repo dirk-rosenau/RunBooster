@@ -17,4 +17,8 @@ interface PreferenceRepository {
     fun setIsPaused(paused: Boolean)
     fun setRemainingTimeBeforePause(time: Long)
     fun getRemainingTimeBeforePause(): Long
+    fun setTrainingStartTime(time: Long)
+    fun getTrainingStartTime(): Long
+    fun setEnterPauseTime(time: Long)
+    fun getEnterPauseTime(): Long
 }

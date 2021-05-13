@@ -2,6 +2,7 @@ package com.dr.drillinstructor.di
 
 import android.media.MediaPlayer
 import androidx.preference.PreferenceManager
+import com.dr.drillinstructor.tracking.FirebaseTracker
 import com.dr.drillinstructor.ui.usecases.ResetTimerUseCase
 import com.dr.drillinstructor.ui.vm.InTrainingFragmentViewModel
 import com.dr.drillinstructor.ui.vm.MainActivityViewModel
@@ -11,12 +12,15 @@ import com.dr.drillinstructor.wrapper.AlarmHelper
 import com.dr.drillinstructor.wrapper.NotificationHelper
 import com.dr.drillinstructor.wrapper.SoundPlayer
 import com.dr.drillinstructor.wrapper.VibrationHelper
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val mainModule = module {
+    single { FirebaseTracker(getFirebase()) }
     single { MediaPlayer() }
     single {
         SoundPlayer(
@@ -29,9 +33,11 @@ val mainModule = module {
     single { VibrationHelper(androidContext()) }
     single { TrainingStateProviderImpl(get()) as TrainingStateProvider } // do not delete cast
     single { PreferenceRepositoryImpl(PreferenceManager.getDefaultSharedPreferences(androidContext())) as PreferenceRepository }
-    single { TrainingManager(get(), get(), get(), get(), get(), get()) }
+    single { TrainingManager(get(), get(), get(), get(), get(), get(), get()) }
     factory { ResetTimerUseCase(get()) }
     viewModel { MainActivityViewModel() }
     viewModel { MainFragmentViewModel() }
     viewModel { InTrainingFragmentViewModel(androidApplication(), get(), get()) }
 }
+
+private fun getFirebase() = Firebase.analytics

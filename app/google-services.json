@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "555147609808",
+    "project_id": "drill-instructor-8c067",
+    "storage_bucket": "drill-instructor-8c067.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555147609808:android:dc97fc0f37dc9c15bc80d5",
+        "android_client_info": {
+          "package_name": "com.dr.drillinstructor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555147609808-f6pcu6sa5t4a5qjn6lp0ac3echbl5ji6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNDmMQP1Cp7vf0X14-t8SQ1EsbMzqajek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555147609808-f6pcu6sa5t4a5qjn6lp0ac3echbl5ji6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
