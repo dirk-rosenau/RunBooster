@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.dr.drillinstructor.R
 import com.dr.drillinstructor.databinding.FragmentInTrainingBinding
+import com.dr.drillinstructor.tracking.FirebaseTracker
 import com.dr.drillinstructor.ui.events.StopClicked
 import com.dr.drillinstructor.ui.events.TrainingEvent
 import com.dr.drillinstructor.ui.vm.InTrainingFragmentViewModel
@@ -22,6 +23,7 @@ class InTrainingFragment : Fragment() {
     private val viewModel: InTrainingFragmentViewModel by viewModel()
     private val mainActivityViewModel: MainActivityViewModel by sharedViewModel()
     private val trainingStateProvider: TrainingStateProvider by inject()
+    private val tracker: FirebaseTracker by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +35,11 @@ class InTrainingFragment : Fragment() {
         binding.vm = viewModel
         observeEvents()
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        tracker.trackScreenView("InTraining", this.javaClass.name)
     }
 
     private fun observeEvents() {

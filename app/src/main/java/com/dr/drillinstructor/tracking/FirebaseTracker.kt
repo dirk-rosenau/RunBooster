@@ -2,6 +2,7 @@ package com.dr.drillinstructor.tracking
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 
 class FirebaseTracker(private val analytics: FirebaseAnalytics) {
 
@@ -54,6 +55,13 @@ class FirebaseTracker(private val analytics: FirebaseAnalytics) {
 
     fun setJoggingTime(time: Long) {
         analytics.setUserProperty(JOGGING_TIME, time.toString())
+    }
+
+    fun trackScreenView(name: String, className: String) {
+        analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_NAME, name)
+            param(FirebaseAnalytics.Param.SCREEN_CLASS, className)
+        }
     }
 
     companion object {
