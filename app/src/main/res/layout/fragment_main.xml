@@ -26,13 +26,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
+        <android.support.wearable.view.CircledImageView
             android:id="@+id/play_button"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:background="?android:attr/selectableItemBackground"
             android:onClick="@{() -> vm.onPlayButtonClicked()}"
             android:src="@drawable/ic_play_arrow"
+            app:circle_color="#85B649"
+            app:circle_radius="32dp"
+            app:circle_radius_pressed="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,8 +46,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/play_button_margin"
             android:layout_marginBottom="@dimen/settings_button_bottom_margin"
-            android:onClick="@{() -> vm.onSettingsButtonClicked()}"
             android:background="?android:attr/selectableItemBackground"
+            android:onClick="@{() -> vm.onSettingsButtonClicked()}"
             android:src="@drawable/ic_settings"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

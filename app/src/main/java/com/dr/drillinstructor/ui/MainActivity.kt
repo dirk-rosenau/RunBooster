@@ -31,8 +31,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        ambientController = AmbientModeSupport.attach(this)
-
+        //ambientController = AmbientModeSupport.attach(this)
         observeEvents()
     }
 
