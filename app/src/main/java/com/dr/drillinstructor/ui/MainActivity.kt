@@ -7,10 +7,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.wear.ambient.AmbientModeSupport
 import com.dr.drillinstructor.R
-import com.dr.drillinstructor.ui.events.MainEvent
-import com.dr.drillinstructor.ui.events.OpenSettings
-import com.dr.drillinstructor.ui.events.StartTraining
-import com.dr.drillinstructor.ui.events.StopTraining
+import com.dr.drillinstructor.ui.events.*
 import com.dr.drillinstructor.ui.vm.MainActivityViewModel
 import com.dr.drillinstructor.util.TrainingManager
 import com.dr.drillinstructor.wrapper.VibrationHelper
@@ -25,14 +22,15 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
     private lateinit var ambientController: AmbientModeSupport.AmbientController
 
-    private val viewModel by viewModel<MainActivityViewModel>()
+    internal val viewModel by viewModel<MainActivityViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //ambientController = AmbientModeSupport.attach(this)
+        ambientController = AmbientModeSupport.attach(this)
         observeEvents()
+        ambientController.setAmbientOffloadEnabled(true)
     }
 
     private fun observeEvents() {
@@ -82,7 +80,8 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         startActivity(intent)
     }
 
-    override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback = MyAmbientCallback()
+    override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback =
+        MyAmbientCallback(viewModel)
 
 
     private fun handleStopPressed() {
@@ -92,18 +91,19 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
     }
 
     // TODO was heisst E/ViewRootImpl[MainActivity]: Error on detecting ambient animations
-    private class MyAmbientCallback : AmbientModeSupport.AmbientCallback() {
+    private class MyAmbientCallback(private val viewModel: MainActivityViewModel) :
+        AmbientModeSupport.AmbientCallback() {
 
         override fun onEnterAmbient(ambientDetails: Bundle?) {
-            // Handle entering ambient mode
+            viewModel.ambient.value = EnterAmbient
         }
 
         override fun onExitAmbient() {
-            // Handle exiting ambient mode
+            viewModel.ambient.value = ExitAmbient
         }
 
         override fun onUpdateAmbient() {
-            // Update the content
+            viewModel.ambient.value = UpdateAmbient
         }
     }
 

@@ -8,8 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.dr.drillinstructor.R
 import com.dr.drillinstructor.databinding.FragmentInTrainingBinding
-import com.dr.drillinstructor.ui.events.StopClicked
-import com.dr.drillinstructor.ui.events.TrainingEvent
+import com.dr.drillinstructor.ui.events.*
 import com.dr.drillinstructor.ui.vm.InTrainingFragmentViewModel
 import com.dr.drillinstructor.ui.vm.MainActivityViewModel
 import com.dr.drillinstructor.util.TrainingStateProvider
@@ -40,6 +39,11 @@ class InTrainingFragment : Fragment() {
         trainingStateProvider.liveTrainingState.observe(
             viewLifecycleOwner,
             Observer { state -> viewModel.setTrainingState(state) })
+
+        mainActivityViewModel.ambient.observe(
+            viewLifecycleOwner,
+            Observer(::handleAmbientEvent)
+        )
     }
 
     private fun handleEvent(event: TrainingEvent) {
@@ -47,6 +51,14 @@ class InTrainingFragment : Fragment() {
             StopClicked -> handleStopClick()
             else -> {
             }
+        }
+    }
+
+    private fun handleAmbientEvent(event: AmbientEvent) {
+        when (event) {
+            EnterAmbient -> viewModel.enterAmbient()
+            ExitAmbient -> viewModel.exitAmbient()
+            UpdateAmbient -> viewModel.updateAmbient()
         }
     }
 

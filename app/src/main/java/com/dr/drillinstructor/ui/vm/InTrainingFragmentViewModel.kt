@@ -24,9 +24,15 @@ class InTrainingFragmentViewModel(
     private val trainingManager: TrainingManager
 ) : AndroidViewModel(application) {
 
+    private val _ambient = MutableLiveData<Boolean>(false)
+    val ambient: LiveData<Boolean> = _ambient
     private val _time = MutableLiveData<String>()
     val time: LiveData<String> = _time
     private val _mode = MutableLiveData<String>()
+
+    private val _ambientTime = MutableLiveData<String>()
+    val ambientTime: LiveData<String> = _ambientTime
+
     val mode: LiveData<String> = _mode
 
     private val _isTimeLabelVisiblePause = MutableLiveData<Boolean>(true)
@@ -46,7 +52,7 @@ class InTrainingFragmentViewModel(
         nextChangeTime = repository.getNextModeChangeTime()
         setTrainingModeLabel(R.string.jogging_mode)
         if (isPaused) {
-            _time.postValue(getFormattedRemainingTime(repository.getRemainingTimeBeforePause()))
+            _time.postValue(getFormattedExactRemainingTime(repository.getRemainingTimeBeforePause()))
         }
         startTimerCoroutine()
         animateTimeLabelPauseMode()
@@ -119,15 +125,42 @@ class InTrainingFragmentViewModel(
 
     private suspend fun runTimer() {
         while (true) {
-            val remainingTime: Long = nextChangeTime - System.currentTimeMillis()
-            if (remainingTime >= 0 && !isPaused) {
-                _time.postValue(getFormattedRemainingTime(remainingTime))
+            if (ambient.value == false) {
+                updateTimeAndLabel()
+                // TODO woanders
+                updateAmbientTimeAndLabel()
+                delay(10)
             }
-            delay(10)
         }
     }
 
-    private fun getFormattedRemainingTime(time: Long) = String.format(
+    private fun updateTimeAndLabel() {
+        val remainingTime: Long = nextChangeTime - System.currentTimeMillis()
+        if (remainingTime >= 0 && !isPaused) {
+            _time.postValue(getFormattedExactRemainingTime(remainingTime))
+        }
+    }
+
+    private fun updateAmbientTimeAndLabel() {
+        val remainingTime: Long = nextChangeTime - System.currentTimeMillis()
+        if (remainingTime >= 0) {
+            _ambientTime.postValue(getFormattedInexactRemainingTime(remainingTime))
+        }
+    }
+
+    private fun getFormattedInexactRemainingTime(remainingTime: Long): String {
+        val timeInSeconds = TimeUnit.MILLISECONDS.toSeconds(remainingTime)
+        return if (timeInSeconds < 10) {
+            "< 10 sec"
+        } else if (timeInSeconds < 30) {
+            "< 30 sec"
+        } else if (timeInSeconds < 60) {
+            "< 1 min"
+        } else "> 1 min"
+    }
+
+
+    private fun getFormattedExactRemainingTime(time: Long) = String.format(
         "%02d:%02d:%02d",
         TimeUnit.MILLISECONDS.toMinutes(time),
         time / 1000 % 60,
@@ -139,8 +172,20 @@ class InTrainingFragmentViewModel(
         nextChangeTime = repository.getNextModeChangeTime()
         Log.d(
             "intrainingViewModel", "$state, nextChangeTime: ${
-                getFormattedRemainingTime(nextChangeTime - System.currentTimeMillis())
+                getFormattedExactRemainingTime(nextChangeTime - System.currentTimeMillis())
             }"
         )
+    }
+
+    fun enterAmbient() {
+        _ambient.value = true
+    }
+
+    fun exitAmbient() {
+        _ambient.value = false
+    }
+
+    fun updateAmbient() {
+        updateTimeAndLabel()
     }
 }

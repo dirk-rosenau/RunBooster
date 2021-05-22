@@ -22,5 +22,6 @@
     <dimen name="font_size_headline">18sp</dimen>
     <dimen name="font_size_headline2">16sp</dimen>
     <dimen name="font_size_time">34sp</dimen>
+    <dimen name="font_size_time_ambient">34sp</dimen>
     <dimen name="font_size_mode">16sp</dimen>
 </resources>

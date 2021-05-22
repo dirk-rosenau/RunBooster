@@ -1,26 +1,24 @@
 package com.dr.drillinstructor.ui.vm
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dr.drillinstructor.ui.events.MainEvent
-import com.dr.drillinstructor.ui.events.OpenSettings
-import com.dr.drillinstructor.ui.events.StartTraining
-import com.dr.drillinstructor.ui.events.StopTraining
+import com.dr.drillinstructor.ui.events.*
 
 class MainActivityViewModel : ViewModel() {
-    val _mainEventLiveData = MutableLiveData<MainEvent>()
-    val mainEventLiveData: LiveData<MainEvent> = _mainEventLiveData
+    val mainEventLiveData = MutableLiveData<MainEvent>()
+
+    val ambient = MutableLiveData<AmbientEvent>()
+
 
     fun settingsButtonClicked() {
-        _mainEventLiveData.value = OpenSettings
+        mainEventLiveData.value = OpenSettings
     }
 
     fun playButtonClicked() {
-        _mainEventLiveData.value = StartTraining
+        mainEventLiveData.value = StartTraining
     }
 
     fun stopButtonClicked() {
-        _mainEventLiveData.value = StopTraining
+        mainEventLiveData.value = StopTraining
     }
 }
