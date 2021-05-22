@@ -10,4 +10,8 @@
     <string name="notification_run_mode_active">Training mode active</string>
     <string name="sprint_mode">Sprint</string>
     <string name="jogging_mode">Jogging</string>
+    <string name="less_10_seconds">&lt; 10 sec</string>
+    <string name="less_30_seconds">&lt; 30 sec</string>
+    <string name="less_60_seconds">&lt; 1 min</string>
+    <string name="less_x_minutes">&lt; %1$d min</string>
 </resources>

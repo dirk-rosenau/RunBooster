@@ -127,36 +127,52 @@ class InTrainingFragmentViewModel(
         while (true) {
             if (ambient.value == false) {
                 updateTimeAndLabel()
-                // TODO woanders
-                updateAmbientTimeAndLabel()
                 delay(10)
+            } else {
+                updateAmbientTimeAndLabel()
+                delay(1000)
             }
         }
     }
 
+
     private fun updateTimeAndLabel() {
-        val remainingTime: Long = nextChangeTime - System.currentTimeMillis()
+        val remainingTime = nextChangeTime - System.currentTimeMillis()
         if (remainingTime >= 0 && !isPaused) {
             _time.postValue(getFormattedExactRemainingTime(remainingTime))
         }
     }
 
     private fun updateAmbientTimeAndLabel() {
-        val remainingTime: Long = nextChangeTime - System.currentTimeMillis()
+        val remainingTime = nextChangeTime - System.currentTimeMillis()
         if (remainingTime >= 0) {
-            _ambientTime.postValue(getFormattedInexactRemainingTime(remainingTime))
+            val newValue = getFormattedInexactRemainingTime(remainingTime)
+            if (_ambientTime.value != newValue) {
+                _ambientTime.postValue(getFormattedInexactRemainingTime(remainingTime))
+            }
         }
     }
 
     private fun getFormattedInexactRemainingTime(remainingTime: Long): String {
         val timeInSeconds = TimeUnit.MILLISECONDS.toSeconds(remainingTime)
-        return if (timeInSeconds < 10) {
-            "< 10 sec"
-        } else if (timeInSeconds < 30) {
-            "< 30 sec"
-        } else if (timeInSeconds < 60) {
-            "< 1 min"
-        } else "> 1 min"
+        return when {
+            timeInSeconds < 10 -> {
+                getApplication<Application>().getString(
+                    R.string.less_10_seconds
+                )
+            }
+            timeInSeconds < 30 -> {
+                getApplication<Application>().getString(
+                    R.string.less_30_seconds
+                )
+            }
+            else -> {
+                getApplication<Application>().getString(
+                    R.string.less_x_minutes,
+                    TimeUnit.MILLISECONDS.toMinutes(remainingTime) + 1
+                )
+            }
+        }
     }
 
 
