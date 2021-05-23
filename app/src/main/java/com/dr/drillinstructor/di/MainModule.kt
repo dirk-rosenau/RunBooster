@@ -32,6 +32,6 @@ val mainModule = module {
     single { TrainingManager(get(), get(), get(), get(), get(), get()) }
     factory { ResetTimerUseCase(get()) }
     viewModel { MainActivityViewModel() }
-    viewModel { MainFragmentViewModel() }
+    viewModel { MainFragmentViewModel(androidApplication()) }
     viewModel { InTrainingFragmentViewModel(androidApplication(), get(), get()) }
 }

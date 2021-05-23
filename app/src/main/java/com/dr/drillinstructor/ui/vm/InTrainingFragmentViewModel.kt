@@ -2,7 +2,6 @@ package com.dr.drillinstructor.ui.vm
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -22,10 +21,8 @@ class InTrainingFragmentViewModel(
     application: Application,
     private val repository: PreferenceRepository,
     private val trainingManager: TrainingManager
-) : AndroidViewModel(application) {
+) : AmbientViewModel(application) {
 
-    private val _ambient = MutableLiveData<Boolean>(false)
-    val ambient: LiveData<Boolean> = _ambient
     private val _time = MutableLiveData<String>()
     val time: LiveData<String> = _time
     private val _mode = MutableLiveData<String>()
@@ -193,15 +190,7 @@ class InTrainingFragmentViewModel(
         )
     }
 
-    fun enterAmbient() {
-        _ambient.value = true
-    }
-
-    fun exitAmbient() {
-        _ambient.value = false
-    }
-
-    fun updateAmbient() {
+    override fun updateAmbient() {
         updateTimeAndLabel()
     }
 }

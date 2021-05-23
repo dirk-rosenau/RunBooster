@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="vm"
             type="com.dr.drillinstructor.ui.vm.MainFragmentViewModel" />
@@ -19,6 +21,7 @@
             android:id="@+id/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:antialias="@{!vm.ambient}"
             android:text="@string/app_name"
             android:textSize="@dimen/font_size_headline"
             app:layout_constraintBottom_toTopOf="@id/play_button"
@@ -32,9 +35,22 @@
             android:layout_height="64dp"
             android:onClick="@{() -> vm.onPlayButtonClicked()}"
             android:src="@drawable/ic_play_arrow"
+            android:visibility="@{vm.ambient ? View.INVISIBLE : View.VISIBLE}"
             app:circle_color="#85B649"
             app:circle_radius="32dp"
             app:circle_radius_pressed="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:antialias="@{!vm.ambient}"
+            android:text="@{vm.time}"
+            android:textSize="@dimen/font_size_headline"
+            android:visibility="@{vm.ambient ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +65,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{() -> vm.onSettingsButtonClicked()}"
             android:src="@drawable/ic_settings"
+            android:visibility="@{vm.ambient ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
