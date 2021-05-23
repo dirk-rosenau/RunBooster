@@ -22,7 +22,7 @@
             android:id="@+id/mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:antialias="@{!vm.ambient}"
             android:background="@{vm.ambient ? @color/black : @android:color/transparent}"
             android:text="@{vm.mode}"

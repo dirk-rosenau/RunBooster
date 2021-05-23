@@ -74,7 +74,7 @@ class TrainingManager(
     private fun setLightMode() {
         Log.d("BroadcastReceiver", "enter LightMode")
         if (trainingStateProvider.getTrainingState() == TrainingState.HARD) {
-            soundPlayer.playSound("outstanding.mp3")
+            soundPlayer.playSound("outstanding2.mp3")
             vibrationHelper.vibrateLightMode()
         } else {
             vibrationHelper.vibrateShort()
@@ -88,7 +88,7 @@ class TrainingManager(
         preferenceRepository.getHardModeDuration().toNextChangeTime().scheduleAsNextAlarm()
         trainingStateProvider.setTrainingState(TrainingState.HARD)
         vibrationHelper.vibrateHardMode()
-        soundPlayer.playSound("gogogo.mp3")
+        soundPlayer.playSound("gogogo2.mp3")
     }
 
     private fun Long.toNextChangeTime() = System.currentTimeMillis() + this
