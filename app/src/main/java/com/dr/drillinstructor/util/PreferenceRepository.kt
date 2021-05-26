@@ -17,4 +17,6 @@ interface PreferenceRepository {
     fun setIsPaused(paused: Boolean)
     fun setRemainingTimeBeforePause(time: Long)
     fun getRemainingTimeBeforePause(): Long
+    fun setSoundEnabled(enabled: Boolean)
+    fun isSoundEnabled(): Boolean
 }

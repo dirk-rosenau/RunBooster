@@ -13,6 +13,7 @@ class PreferenceRepositoryImpl(private val prefs: SharedPreferences) : Preferenc
         const val NEXT_MODE_CHANGE = "nextModeChange"
         const val KEY_PAUSED = "paused"
         const val KEY_REMAINING_TIME_BEFORE_PAUSE = "remainingTimeBeforePause"
+        const val KEY_SOUND_ENABLED = "soundEnabled"
 
     }
 
@@ -34,6 +35,12 @@ class PreferenceRepositoryImpl(private val prefs: SharedPreferences) : Preferenc
 
     override fun getRemainingTimeBeforePause(): Long =
         prefs.getLong(KEY_REMAINING_TIME_BEFORE_PAUSE, 0L)
+
+    override fun setSoundEnabled(enabled: Boolean) {
+        prefs.edit().putBoolean(KEY_SOUND_ENABLED, enabled).apply()
+    }
+
+    override fun isSoundEnabled(): Boolean = prefs.getBoolean(KEY_SOUND_ENABLED, true)
 
     override fun setTrainingState(trainingState: TrainingState) {
         prefs.edit().putString(KEY_TRAINING_STATE, trainingState.name).apply()
