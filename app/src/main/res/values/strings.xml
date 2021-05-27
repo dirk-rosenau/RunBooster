@@ -15,4 +15,6 @@
     <string name="less_30_seconds">&lt; 30 sec</string>
     <string name="less_60_seconds">&lt; 1 min</string>
     <string name="less_x_minutes">&lt; %1$d min</string>
+    <string name="min">min</string>
+    <string name="sec">sec</string>
 </resources>

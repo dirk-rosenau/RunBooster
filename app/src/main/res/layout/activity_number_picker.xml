@@ -11,35 +11,68 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:boxedEdges="all"
         android:fillViewport="true"
+        app:boxedEdges="all"
         tools:ignore="MissingPrefix">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_settings_layout">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/headline"
-                android:layout_width="wrap_content"
+                android:id="@+id/headline1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@string/min"
+                android:textColor="@color/white"
                 android:textSize="@dimen/font_size_headline"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/picker"
+                app:layout_constraintStart_toStartOf="@id/picker"
+                app:layout_constraintTop_toBottomOf="@id/picker" />
 
             <NumberPicker
                 android:id="@+id/picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/number_picker_margin"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                app:layout_constraintEnd_toStartOf="@id/dividertext"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/headline" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/dividertext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"
+                app:layout_constraintBottom_toBottomOf="@id/picker"
+                app:layout_constraintEnd_toStartOf="@id/picker2"
+                app:layout_constraintStart_toEndOf="@id/picker"
+                app:layout_constraintTop_toTopOf="@id/picker" />
+
+            <TextView
+                android:id="@+id/headline2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/sec"
+                android:textSize="@dimen/font_size_headline"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/picker2"
+                app:layout_constraintStart_toStartOf="@id/picker2"
+                app:layout_constraintTop_toBottomOf="@id/picker2" />
+
+            <NumberPicker
+                android:id="@+id/picker2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/number_picker_margin"
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/dividertext"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

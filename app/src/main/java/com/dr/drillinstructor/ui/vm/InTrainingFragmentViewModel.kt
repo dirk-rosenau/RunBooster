@@ -174,10 +174,9 @@ class InTrainingFragmentViewModel(
 
 
     private fun getFormattedExactRemainingTime(time: Long) = String.format(
-        "%02d:%02d:%02d",
+        "%02d:%02d",
         TimeUnit.MILLISECONDS.toMinutes(time),
-        time / 1000 % 60,
-        time / 10 % 100
+        time / 1000 % 60
     )
 
     fun setTrainingState(state: TrainingState?) {

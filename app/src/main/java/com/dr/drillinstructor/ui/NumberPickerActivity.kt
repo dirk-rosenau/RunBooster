@@ -6,6 +6,7 @@ import com.dr.drillinstructor.R
 import com.dr.drillinstructor.util.*
 import kotlinx.android.synthetic.main.activity_number_picker.*
 import org.koin.android.ext.android.inject
+import java.util.concurrent.TimeUnit
 
 class NumberPickerActivity : WearableActivity() {
 
@@ -21,14 +22,22 @@ class NumberPickerActivity : WearableActivity() {
     }
 
     override fun onPause() {
-        val result = picker.value
+        val min = picker.value
+        val sec = picker2.value
+
+        var result = min * 60 * 1000 + sec * 1000
+        if (result < MIN_TIME) {
+            result = MIN_TIME // at least 1 seconds
+        }
+
+
         // huge smell
         when (intent.getStringExtra(BUNDLE_START_MODE_VALUE)) {
             BUNDLE_LIGHT_MODE -> {
-                preferenceRepository.setLightModeDuration(result * 1000 * 60L)
+                preferenceRepository.setLightModeDuration(result.toLong())
             }
             BUNDLE_HARD_MODE -> {
-                preferenceRepository.setHardModeDuration(result * 1000L)
+                preferenceRepository.setHardModeDuration(result.toLong())
             }
             BUNDLE_STARTIME -> {
                 preferenceRepository.setStartDelay(result * 1000 * 60L)
@@ -38,19 +47,27 @@ class NumberPickerActivity : WearableActivity() {
     }
 
     private fun initNumberPicker() {
-        picker.minValue = 1
-        picker.maxValue = 35
+        picker.minValue = 0
+        picker.maxValue = 59
 
-        picker.value = when (intent.getStringExtra(BUNDLE_START_MODE_VALUE)) {
-            BUNDLE_LIGHT_MODE -> preferenceRepository.getLightModeDuration().toMinuteInt()
-            BUNDLE_HARD_MODE -> preferenceRepository.getHardModeDuration().toMSecondInt()
-            BUNDLE_STARTIME -> preferenceRepository.getStartDelay().toMinuteInt()
-            else -> 1
+        picker2.minValue = 0
+        picker2.maxValue = 59
+
+        val duration = when (intent.getStringExtra(BUNDLE_START_MODE_VALUE)) {
+            BUNDLE_LIGHT_MODE ->
+                preferenceRepository.getLightModeDuration()
+            BUNDLE_HARD_MODE -> preferenceRepository.getHardModeDuration()
+            else -> 0
         }
+
+        val min = TimeUnit.MILLISECONDS.toMinutes(duration)
+        val sec = TimeUnit.MILLISECONDS.toSeconds(duration)
+
+        picker.value = min.toInt()
+        picker2.value = sec.toInt()
     }
 
-    private fun Int.fromSecond() = (this * 1000).toLong()
-    private fun Long.toMSecondInt() = (this / 1000).toInt()
-    private fun Int.fromMinute() = (this * 1000 * 60).toLong()
-    private fun Long.toMinuteInt() = (this / 60 / 1000).toInt()
+    companion object{
+        const val MIN_TIME = 5000
+    }
 }
