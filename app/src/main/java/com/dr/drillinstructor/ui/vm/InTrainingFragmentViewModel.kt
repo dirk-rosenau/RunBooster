@@ -15,6 +15,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
+import kotlin.math.ceil
 
 
 class InTrainingFragmentViewModel(
@@ -153,9 +155,10 @@ class InTrainingFragmentViewModel(
     private fun getFormattedInexactRemainingTime(remainingTime: Long): String {
         val timeInSeconds = TimeUnit.MILLISECONDS.toSeconds(remainingTime)
         return when {
-            timeInSeconds < 10 -> {
+            timeInSeconds < 20 -> {
                 getApplication<Application>().getString(
-                    R.string.less_10_seconds
+                    R.string.less_x_seconds,
+                    roundToNearest5(timeInSeconds)
                 )
             }
             timeInSeconds < 30 -> {
@@ -171,6 +174,8 @@ class InTrainingFragmentViewModel(
             }
         }
     }
+
+    private fun roundToNearest5(value: Long) = 5 * (ceil(abs(value.toDouble() / 5))).toLong()
 
 
     private fun getFormattedExactRemainingTime(time: Long) = String.format(

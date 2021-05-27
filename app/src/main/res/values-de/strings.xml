@@ -13,8 +13,9 @@
     <string name="sounds">Ton</string>
     <string name="less_10_seconds">&lt; 10 Sek</string>
     <string name="less_30_seconds">&lt; 30 Sek</string>
-    <string name="less_60_seconds">&lt; 1 min</string>
-    <string name="less_x_minutes">&lt; %1$d min</string>
+    <string name="less_60_seconds">&lt; 1 Min</string>
+    <string name="less_x_minutes">&lt; %1$d Min</string>
+    <string name="less_x_seconds">&lt; %1$d Sek</string>
     <string name="min">Min</string>
     <string name="sec">Sek</string>
 </resources>
