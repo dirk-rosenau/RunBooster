@@ -56,19 +56,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <View
+            android:id="@+id/settings_click_area"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginBottom="@dimen/settings_button_bottom_margin"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="@{() -> vm.onSettingsButtonClicked()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <ImageButton
             android:id="@+id/settings_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/play_button_margin"
-            android:layout_marginBottom="@dimen/settings_button_bottom_margin"
+
             android:background="?android:attr/selectableItemBackground"
             android:onClick="@{() -> vm.onSettingsButtonClicked()}"
             android:src="@drawable/ic_settings"
             android:visibility="@{vm.ambient ? View.INVISIBLE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@id/settings_click_area"
+            app:layout_constraintEnd_toEndOf="@id/settings_click_area"
+            app:layout_constraintStart_toStartOf="@id/settings_click_area"
+            app:layout_constraintTop_toTopOf="@id/settings_click_area" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

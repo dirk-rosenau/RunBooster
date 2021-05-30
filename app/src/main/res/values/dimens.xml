@@ -24,4 +24,5 @@
     <dimen name="font_size_time">34sp</dimen>
     <dimen name="font_size_time_ambient">34sp</dimen>
     <dimen name="font_size_mode">16sp</dimen>
+    <dimen name="time_label_margin">5dp</dimen>
 </resources>

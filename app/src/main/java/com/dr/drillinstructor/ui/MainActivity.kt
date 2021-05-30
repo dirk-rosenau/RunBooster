@@ -30,7 +30,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
         ambientController = AmbientModeSupport.attach(this)
         observeEvents()
-        ambientController.setAmbientOffloadEnabled(true)
     }
 
     private fun observeEvents() {
@@ -54,7 +53,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             }
         }
 
-        // find fragment by tag (das jeweils andere), dann add fragment by tag
         supportFragmentManager.beginTransaction()
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .replace(R.id.fragment_container, fragment, tag)
@@ -90,7 +88,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         showFragment(TAG_MAIN, true)
     }
 
-    // TODO was heisst E/ViewRootImpl[MainActivity]: Error on detecting ambient animations
     private class MyAmbientCallback(private val viewModel: MainActivityViewModel) :
         AmbientModeSupport.AmbientCallback() {
 

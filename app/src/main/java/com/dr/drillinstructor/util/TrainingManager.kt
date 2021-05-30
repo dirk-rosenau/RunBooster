@@ -68,8 +68,10 @@ class TrainingManager(
         }
     }
 
+    // sanity check: if we are in training mode but the bext change time is less than actual time, something went wrong
     fun isTrainingStarted(): Boolean =
-        preferenceRepository.getTrainingState() != TrainingState.IDLE
+        (preferenceRepository.getTrainingState() != TrainingState.IDLE && preferenceRepository.getNextModeChangeTime() > System.currentTimeMillis())
+
 
     private fun setLightMode() {
         Log.d("BroadcastReceiver", "enter LightMode")

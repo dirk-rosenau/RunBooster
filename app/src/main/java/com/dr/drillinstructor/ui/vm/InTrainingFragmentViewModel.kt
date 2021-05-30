@@ -155,7 +155,7 @@ class InTrainingFragmentViewModel(
     private fun getFormattedInexactRemainingTime(remainingTime: Long): String {
         val timeInSeconds = TimeUnit.MILLISECONDS.toSeconds(remainingTime)
         return when {
-            timeInSeconds < 20 -> {
+            timeInSeconds < 15 -> {
                 getApplication<Application>().getString(
                     R.string.less_x_seconds,
                     roundToNearest5(timeInSeconds)
