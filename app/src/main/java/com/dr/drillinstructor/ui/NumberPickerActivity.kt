@@ -61,13 +61,13 @@ class NumberPickerActivity : WearableActivity() {
         }
 
         val min = TimeUnit.MILLISECONDS.toMinutes(duration)
-        val sec = TimeUnit.MILLISECONDS.toSeconds(duration)
+        val sec = duration / 1000 % 60
 
         picker.value = min.toInt()
         picker2.value = sec.toInt()
     }
 
-    companion object{
+    companion object {
         const val MIN_TIME = 5000
     }
 }
