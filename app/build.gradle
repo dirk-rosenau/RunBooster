@@ -11,8 +11,8 @@ android {
         applicationId "com.dr.runbooster"
         minSdkVersion 28
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.1.3"
     }
     buildTypes {
         release {

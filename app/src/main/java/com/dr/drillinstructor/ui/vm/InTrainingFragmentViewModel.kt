@@ -45,11 +45,12 @@ class InTrainingFragmentViewModel(
 
     private var isPaused = repository.isPaused()
 
-    private var nextChangeTime: Long = 0
+    private var nextChangeTime: Long = repository.getNextModeChangeTime()
 
     init {
         nextChangeTime = repository.getNextModeChangeTime()
         setTrainingModeLabel(R.string.jogging_mode)
+
         if (isPaused) {
             _time.postValue(getFormattedExactRemainingTime(repository.getRemainingTimeBeforePause()))
         }
