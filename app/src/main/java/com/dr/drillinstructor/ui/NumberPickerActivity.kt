@@ -2,9 +2,8 @@ package com.dr.drillinstructor.ui
 
 import android.os.Bundle
 import android.support.wearable.activity.WearableActivity
-import com.dr.drillinstructor.R
+import com.dr.drillinstructor.databinding.ActivityNumberPickerBinding
 import com.dr.drillinstructor.util.*
-import kotlinx.android.synthetic.main.activity_number_picker.*
 import org.koin.android.ext.android.inject
 import java.util.concurrent.TimeUnit
 
@@ -12,9 +11,14 @@ class NumberPickerActivity : WearableActivity() {
 
     private val preferenceRepository: PreferenceRepository by inject()
 
+    private lateinit var binding: ActivityNumberPickerBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_number_picker)
+
+        binding = ActivityNumberPickerBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
 
         setAmbientEnabled()
 
@@ -22,8 +26,8 @@ class NumberPickerActivity : WearableActivity() {
     }
 
     override fun onPause() {
-        val min = picker.value
-        val sec = picker2.value
+        val min = binding.picker.value
+        val sec = binding.picker2.value
 
         var result = min * 60 * 1000 + sec * 1000
         if (result < MIN_TIME) {
@@ -47,11 +51,11 @@ class NumberPickerActivity : WearableActivity() {
     }
 
     private fun initNumberPicker() {
-        picker.minValue = 0
-        picker.maxValue = 59
+        binding.picker.minValue = 0
+        binding.picker.maxValue = 59
 
-        picker2.minValue = 0
-        picker2.maxValue = 59
+        binding.picker2.minValue = 0
+        binding.picker2.maxValue = 59
 
         val duration = when (intent.getStringExtra(BUNDLE_START_MODE_VALUE)) {
             BUNDLE_LIGHT_MODE ->
@@ -63,8 +67,8 @@ class NumberPickerActivity : WearableActivity() {
         val min = TimeUnit.MILLISECONDS.toMinutes(duration)
         val sec = duration / 1000 % 60
 
-        picker.value = min.toInt()
-        picker2.value = sec.toInt()
+        binding.picker.value = min.toInt()
+        binding.picker2.value = sec.toInt()
     }
 
     companion object {

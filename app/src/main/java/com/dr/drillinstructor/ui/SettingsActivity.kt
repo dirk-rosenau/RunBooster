@@ -3,21 +3,24 @@ package com.dr.drillinstructor.ui
 import android.content.Intent
 import android.os.Bundle
 import android.support.wearable.activity.WearableActivity
-import com.dr.drillinstructor.R
+import com.dr.drillinstructor.databinding.ActivitySettingsBinding
 import com.dr.drillinstructor.util.BUNDLE_HARD_MODE
 import com.dr.drillinstructor.util.BUNDLE_LIGHT_MODE
 import com.dr.drillinstructor.util.BUNDLE_START_MODE_VALUE
 import com.dr.drillinstructor.util.PreferenceRepository
-import kotlinx.android.synthetic.main.activity_settings.*
 import org.koin.android.ext.android.inject
 
 class SettingsActivity : WearableActivity() {
 
     private val preferenceRepository: PreferenceRepository by inject()
+    lateinit var binding: ActivitySettingsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+
+        setContentView(binding.root)
 
         // Enables Always-on
         //setAmbientEnabled()
@@ -26,24 +29,24 @@ class SettingsActivity : WearableActivity() {
     }
 
     private fun initSoundSwitch() {
-        switch_sound.isChecked = preferenceRepository.isSoundEnabled()
+        binding.switchSound.isChecked = preferenceRepository.isSoundEnabled()
     }
 
     private fun initListeners() {
-        clickBoxLightDuration.setOnClickListener {
+        binding.clickBoxLightDuration.setOnClickListener {
             startActivityWithMode(BUNDLE_LIGHT_MODE)
         }
 
-        clickBoxHardDuration.setOnClickListener {
+        binding.clickBoxHardDuration.setOnClickListener {
             startActivityWithMode(BUNDLE_HARD_MODE)
         }
 
-        switch_sound.setOnCheckedChangeListener { _, checked ->
+        binding.switchSound.setOnCheckedChangeListener { _, checked ->
             preferenceRepository.setSoundEnabled(checked)
         }
 
-        clickBoxSound.setOnClickListener {
-            switch_sound.toggle()
+        binding.clickBoxSound.setOnClickListener {
+            binding.switchSound.toggle()
         }
     }
 
