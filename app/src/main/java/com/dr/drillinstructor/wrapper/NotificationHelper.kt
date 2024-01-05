@@ -39,12 +39,13 @@ class NotificationHelper(private val context: Context) {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setOngoing(true)
 
-        val statusText = "#time#"
+        //val statusText = "#time#"
+        val statusText = "Run Booster"
 
         val ongoingActivityStatus = Status.Builder()
             // Sets the text used across various surfaces.
             .addTemplate(statusText)
-            .addPart("time", Status.StopwatchPart(nextChangeTime))
+            //.addPart("time", Status.StopwatchPart(nextChangeTime))
             .build()
 
         val ongoingActivity =
