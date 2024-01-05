@@ -11,7 +11,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.wear.ongoing.OngoingActivity
-import androidx.wear.ongoing.Status
 import com.dr.drillinstructor.R
 import com.dr.drillinstructor.ui.MainActivity
 
@@ -39,14 +38,14 @@ class NotificationHelper(private val context: Context) {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setOngoing(true)
 
-        //val statusText = "#time#"
-        val statusText = "Run Booster"
+        /*val statusText = "#time#"
 
         val ongoingActivityStatus = Status.Builder()
             // Sets the text used across various surfaces.
             .addTemplate(statusText)
             //.addPart("time", Status.StopwatchPart(nextChangeTime))
             .build()
+         */
 
         val ongoingActivity =
             OngoingActivity.Builder(
@@ -68,7 +67,7 @@ class NotificationHelper(private val context: Context) {
                 .setTouchIntent(pendingIntent)
                 // Here, sets the text used for the Ongoing Activity (more
                 // options are available for timers and stopwatches).
-                .setStatus(ongoingActivityStatus)
+             //   .setStatus(ongoingActivityStatus)
                 .build()
 
         ongoingActivity.apply(context)
