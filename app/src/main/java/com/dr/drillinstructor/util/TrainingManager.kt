@@ -23,9 +23,10 @@ class TrainingManager(
     }
 
     fun startTraining() {
-        notificationHelper.showNotification()
-        preferenceRepository.setIsPaused(false)
         setLightMode()
+        val nextChangeTime = preferenceRepository.getNextModeChangeTime()
+        notificationHelper.showNotification(nextChangeTime)
+        preferenceRepository.setIsPaused(false)
     }
 
     fun stopTrainng() {
